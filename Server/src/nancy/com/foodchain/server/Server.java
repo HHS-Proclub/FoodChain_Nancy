@@ -3,6 +3,8 @@ package nancy.com.foodchain.server;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -28,28 +30,29 @@ public class Server {
         clientSocket = serverSocket.accept();
  
         //use sending message to client
-        PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+        //PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+        
+     // get the output stream from the socket.
+        OutputStream outputStream = clientSocket.getOutputStream();
+        // create an object output stream from the output stream so we can send an object through it
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+        
+        
+        
         //use receiving message from client
         BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
  
-        String message = null;
+        String message = "";
  
         while (true) {
-            //send message
-            out.println("Write a word to see some magic: ");
- 
-            //receive message
-            message = in.readLine();
-            System.out.println("<New message from client> " + message);
- 
-            //reverse and send it back
-           // out.println(new StringBuilder(message).reverse().toString());
-            out.println(new StringBuilder(foodChain.getLifeList().toString()));
- 
+        	objectOutputStream.writeObject(foodChain.getLifeList());
+        	///foodChain.printList();
+            //out.println(new StringBuilder(foodChain.getLifeList().toString()));
+        	try{Thread.sleep(2000);}catch(InterruptedException e){System.out.println(e);}  
             //close socket when receive "exit"
             if (message.equalsIgnoreCase("exit")) {
                 System.out.println("Session closed!");
-                out.close();
+                objectOutputStream.close();
                 in.close();
                 clientSocket.close();
                 serverSocket.close();

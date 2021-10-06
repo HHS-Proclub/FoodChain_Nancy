@@ -3,12 +3,10 @@ package nancy.com.foodchain.server;
 import java.util.Random;
 
 public class Animal extends Life {
-	
-	public Animal(FoodChain foodchain, String name, int x, int y) {
-		super(foodchain, name, x, y);
+	public Animal(FoodChain foodchain, String name, int x, int y, String icon) {
+		super(foodchain, name, x, y, icon);
 		// TODO Auto-generated constructor stub
 	}
-
 	public int[] direction = new int[]{1,1};
 	public int directionPeriod = 5;
 	public void run() {
@@ -38,8 +36,11 @@ public class Animal extends Life {
 				directionPeriod = 5+rand.nextInt(20);
 			}
 			
-			System.err.println(name+":"+x+", "+y);
+			//System.err.println(name+":"+x+", "+y);
 			
 		}
+	}
+	public Life born(String name) {
+		return super.born(name);
 	}
 }

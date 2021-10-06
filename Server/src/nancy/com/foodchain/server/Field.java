@@ -1,6 +1,8 @@
 package nancy.com.foodchain.server;
 
-public class Field {
+import java.io.Serializable;
+
+public class Field implements  Serializable{
 	public Field(int width, int height) {
 		super();
 		this.width = width;
