@@ -32,7 +32,7 @@ public class Client {
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
  
         //use receiving message from server
-        //BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         
      // get the input stream from the connected socket
         InputStream inputStream = socket.getInputStream();
@@ -41,16 +41,11 @@ public class Client {
         out.println("test");
         while (true) {
         	
-        	try {
-				List<Life> lifeList = (List<Life>) objectInputStream.readObject();
-				field.update(lifeList);
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+
+			//List<Life> lifeList = (List<Life>) objectInputStream.readObject();
+    		String jsonString = in.readLine();
+			field.update(jsonString);
+
             //receive message
            // System.out.println("<New message from server> " + in.readLine());
  

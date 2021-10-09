@@ -31,5 +31,19 @@ public class Life implements  Serializable, Runnable{
 	public Life born(String name) {
 		return new Life(this.foodchain, name, this.x+1, this.y+1, icon);
 	}
+	
+	public String toJson( ) {
+		//StringBuilder sb = new StringBuilder();
+		return "{"+
+				"\"name\":\""+name+"\","+
+				"\"x\":"+x+","+
+				"\"y\":"+y+","+
+				"\"age\":"+age+","+
+				"\"volume\":"+volume+","+
+				"\"width\":"+width+","+
+				"\"height\":"+height+","+
+				"\"icon\":\""+icon+"\""+				
+				"}";
+	}
 
 }

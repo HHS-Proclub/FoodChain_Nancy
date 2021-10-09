@@ -43,4 +43,6 @@ public class Animal extends Life {
 	public Life born(String name) {
 		return super.born(name);
 	}
+	
+	
 }

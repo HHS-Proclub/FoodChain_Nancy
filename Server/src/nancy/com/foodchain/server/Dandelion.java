@@ -1,8 +1,8 @@
 package nancy.com.foodchain.server;
 
-public class Cactus extends Plant {
+public class Dandelion extends Plant {
 
-	public Cactus(FoodChain foodchain, String name, int x, int y, String icon) {
+	public Dandelion(FoodChain foodchain, String name, int x, int y, String icon) {
 		super(foodchain, name, x, y, icon);
 		growSpeed = 2;
 		// TODO Auto-generated constructor stub

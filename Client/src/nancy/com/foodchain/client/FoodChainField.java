@@ -4,6 +4,7 @@ import javax.swing.ImageIcon;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +13,8 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import nancy.com.foodchain.server.*;
-
+import com.google.gson.Gson; 
+import com.google.gson.GsonBuilder; 
 
 
 public class FoodChainField extends JFrame {
@@ -74,8 +76,11 @@ public class FoodChainField extends JFrame {
     {
     	FoodChainField c = new FoodChainField();
     }
-    public void update(List <Life> lifeList) {
+    public void update(String jsonString) {
     	
+    	Gson gson = new Gson();
+        List<Life> lifeList = Arrays.asList(gson.fromJson(jsonString, Life[].class));
+        
     	//for (int i=0; i<lifeList.size();i++) {
 		//	Life life = lifeList.get(i);
 		//	System.err.println("name=" + life.name+" x="+life.x + ", y=" + life.y);
@@ -86,11 +91,7 @@ public class FoodChainField extends JFrame {
     	//Loop through new life list to add new life or update existing life
     	for (int i=0; i<lifeList.size();i++) {
 			Life life = lifeList.get(i);
-			
-			if (lifeMap.get(life.name)==null) {				
-			} else {
-				life.update();
-			}
+						
 			newLifeMap.put(life.name, life);
 		}
     	

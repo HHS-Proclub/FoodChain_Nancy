@@ -1,5 +1,6 @@
 package nancy.com.foodchain.server;
-
+//import com.google.gson.Gson; 
+//import com.google.gson.GsonBuilder;  
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,6 +9,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.List;
  
 public class Server {
  
@@ -30,7 +32,7 @@ public class Server {
         clientSocket = serverSocket.accept();
  
         //use sending message to client
-        //PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+        PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
         
      // get the output stream from the socket.
         OutputStream outputStream = clientSocket.getOutputStream();
@@ -45,9 +47,23 @@ public class Server {
         String message = "";
  
         while (true) {
-        	objectOutputStream.writeObject(foodChain.getLifeList());
+        	//foodChain.getLifeList()
+        	StringBuilder sb = new StringBuilder();
+        	List <Life>list = foodChain.getLifeList();
+        	for (int i=0; i<list.size();i++) {
+        		Life life = list.get(i);
+        		if (i==0) {
+        			sb.append(life.toJson());
+        		} else {
+        			sb.append(","+life.toJson());
+        		}
+        		
+        	}
+        	String lifeListString = "["+sb.toString()+"]";
+        		
+        	//objectOutputStream.writeObject();
         	///foodChain.printList();
-            //out.println(new StringBuilder(foodChain.getLifeList().toString()));
+            out.println(new StringBuilder(lifeListString));
         	try{Thread.sleep(2000);}catch(InterruptedException e){System.out.println(e);}  
             //close socket when receive "exit"
             if (message.equalsIgnoreCase("exit")) {

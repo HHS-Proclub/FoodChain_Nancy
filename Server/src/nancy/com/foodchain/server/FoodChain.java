@@ -14,8 +14,8 @@ public class FoodChain implements  Serializable{
 
 	void doIt() {
 		lifeList.add(new Wolf(this, "Wolf1", ((int)Math.random()*field.width), ((int)Math.random()*field.height), "wolf.png"));
-		//lifeList.add(new Wolf(this, "Wolf2", ((int)Math.random()*field.width), ((int)Math.random()*field.height), "wolf.png"));
-		//lifeList.add(new Cactus(this, "Cactus1", ((int)Math.random()*field.width), ((int)Math.random()*field.height), "grass.png"));
+		lifeList.add(new Wolf(this, "Wolf2", ((int)Math.random()*field.width), ((int)Math.random()*field.height), "wolf.png"));
+		lifeList.add(new Dandelion(this, "Dandelion1", ((int)Math.random()*field.width), ((int)Math.random()*field.height), "dandelion.png"));
 		for (int i=0; i<lifeList.size();i++) {
 			Life life = lifeList.get(i);
 			new Thread(life).start();

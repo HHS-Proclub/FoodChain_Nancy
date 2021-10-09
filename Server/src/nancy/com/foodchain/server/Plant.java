@@ -11,7 +11,7 @@ public class Plant extends Life {
 		super.run();
 		System.out.println("Plant.run");
 		while (true) {
-			volume+=growSpeed;
+			//volume+=growSpeed;
 		}
 	}
 	public Life born(String name) {
