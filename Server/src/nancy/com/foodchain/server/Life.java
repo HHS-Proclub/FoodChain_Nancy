@@ -12,6 +12,9 @@ public class Life implements  Serializable, Runnable{
 	public int width = 20;
 	public int height = 20;
 	public String icon;
+	public String[] edibleList;
+	public int health = 100;
+	public int deltaHealth = 1;
 	public Life(FoodChain foodchain, String name, int x, int y, String icon) {
 		this.foodchain = foodchain;
 		this.name = name;
