@@ -26,11 +26,13 @@ public class Life implements  Serializable, Runnable{
 	public State state = State.NORMAL;
 	public int deltaHealth = 1;
 	public Thread thread;
-	public Life(FoodChain foodchain, String name, int x, int y, String icon) {
+	public Life(FoodChain foodchain, String name, int x, int y, int width, int height, String icon) {
 		this.foodChain = foodchain;
 		this.name = name;
 		this.x = x;
 		this.y = y;
+		this.width = width;
+		this.height = height;
 		this.icon = icon;
 	}
 	public void run() {
@@ -67,7 +69,7 @@ public class Life implements  Serializable, Runnable{
 		
 	}
 	public Life born(String name) {
-		return new Life(this.foodChain, name, this.x+1, this.y+1, icon);
+		return new Life(this.foodChain, name, this.x+1, this.y+1, width/3, height/3, icon);
 	}
 	
 	public String toJson( ) {
@@ -76,6 +78,8 @@ public class Life implements  Serializable, Runnable{
 				"\"name\":\""+name+"\","+
 				"\"x\":"+x+","+
 				"\"y\":"+y+","+
+				"\"width\":"+width+","+
+				"\"height\":"+height+","+
 				"\"age\":"+age+","+
 				"\"volume\":"+volume+","+
 				"\"width\":"+width+","+

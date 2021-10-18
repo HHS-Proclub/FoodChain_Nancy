@@ -15,16 +15,21 @@ public class FoodChain implements  Serializable{
 
 	void doIt() {
 		Random rand = new Random(99);	
-		int maxW = field.width-300;
-		int maxH = field.height-500;
-		lifeList.add(new Wolf(this, "Wolf1", (100+rand.nextInt(maxW)), (100+rand.nextInt(maxH)), "wolf.png"));
-		//lifeList.add(new Wolf(this, "Wolf2", (100+rand.nextInt(maxW)), (100+rand.nextInt(maxH)), "wolf.png"));
-		lifeList.add(new Rabbit(this, "Rabbit1", (100+rand.nextInt(maxW)), (100+rand.nextInt(maxH)), "rabbit.png"));
-		//lifeList.add(new Rabbit(this, "Rabbit2", (100+rand.nextInt(maxW)), (100+rand.nextInt(maxH)), "rabbit.png"));
-		//lifeList.add(new Rabbit(this, "Rabbit3", (100+rand.nextInt(maxW)), (100+rand.nextInt(maxH)), "rabbit.png"));
-		lifeList.add(new Dandelion(this, "Dandelion1", (100+rand.nextInt(maxW)), (100+rand.nextInt(maxH)), "dandelion.png"));
-		//lifeList.add(new Dandelion(this, "Dandelion2", (100+rand.nextInt(maxW)), (100+rand.nextInt(maxH)), "dandelion.png"));
-		//lifeList.add(new Dandelion(this, "Dandelion3", (100+rand.nextInt(maxW)), (100+rand.nextInt(maxH)), "dandelion.png"));
+		int maxW = field.width-100;
+		int maxH = field.height-100;
+		
+		for (int i=0; i<1; i++) {
+			lifeList.add(new Wolf(this, "Wolf"+i, (30+rand.nextInt(maxW)), (100+rand.nextInt(maxH)), 30, 30, "wolf.png"));			
+		}
+		
+		for (int i=0; i<20; i++) {
+			lifeList.add(new Rabbit(this, "Rabbit"+i, (20+rand.nextInt(maxW)), (100+rand.nextInt(maxH)), 20, 20, "rabbit.png"));			
+		}
+		
+		for (int i=0; i<10; i++) {
+			lifeList.add(new Dandelion(this, "Dandelion"+i, (10+rand.nextInt(maxW)), (100+rand.nextInt(maxH)), 40, 40, "dandelion.png"));			
+		}
+
 		for (int i=0; i<lifeList.size();i++) {
 			Life life = lifeList.get(i);
 			life.thread = new Thread(life);

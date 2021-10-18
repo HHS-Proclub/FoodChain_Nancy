@@ -7,6 +7,11 @@ import java.util.Random;
 
 public class Animal extends Life {
 
+	public Animal(FoodChain foodchain, String name, int x, int y, int width, int height, String icon) {
+		super(foodchain, name, x, y, width, height, icon);
+		// TODO Auto-generated constructor stub
+	}
+
 	//the circular scan area
 	public int scanRange = 20;
 	//# of turns (5) before stopping to scan
@@ -15,15 +20,12 @@ public class Animal extends Life {
 	public int scanCount = 0;
 	
 	Life target;
-	private int approachSpeed = 2;
-	public Animal(FoodChain foodchain, String name, int x, int y, String icon) {
-		super(foodchain, name, x, y, icon);
-		// TODO Auto-generated constructor stub
-	}
+	public int approachSpeed = 8;
+	
 
 	public int[] direction = new int[]{1,1};
 	public int directionPeriod = 5;
-	private int catchRange = 5;
+	public int catchRange = 5;
 	public void run() {
 		super.run();
 		System.out.println("Animal.run");
@@ -34,11 +36,7 @@ public class Animal extends Life {
 			case NORMAL:
 				walk();
 				
-				if (++scanCount>=scanBreak) {
-					//reset turns before scan
-					scanCount = 0;
-					scan();
-				}
+				
 				break;
 			case SLEEP:
 				sleep();
@@ -99,85 +97,34 @@ public class Animal extends Life {
 	}
 	
 	public void eat() {
-		health+= deltaHealth;
-		target.state = State.DEAD;
+		
 	}
 	
 	public void scan() {
-		if (edibleList==null) {
-			return;
-		}
-		List <Life> lifeList = foodChain.getLifeList();
-		List <Life>foundList = new ArrayList();
-		for (int i=0; i<lifeList.size();i++) {
-			Life life = lifeList.get(i);
-			if (life==this) {
-				continue;
-			}
-			String name = life.getClass().getName();
-			int index = name.lastIndexOf(".");
-			if (!Arrays.asList(edibleList).contains(name.substring(index+1, name.length())) ||!isInScanRange()) {
-				//currently only approach first found
-				continue;
-				
-			} 
-			foundList.add(life);
-			
-			
-		}
-		
-		int minDistance = 99999999;
-		target = null;
-		for (int i=0; i<foundList.size();i++) {
-			Life life = foundList.get(i);
-			if (life==this) {
-				continue;
-			}
-			int distance = getDistance();
-			if (distance<minDistance) {
-				minDistance = distance;
-				target = life;
-			}
-		}
-		
-		if (target != null) {
-			state = State.APPROACHING;
-		}
 		
 	}
 	
-	private boolean isInScanRange() {
+	public boolean isInScanRange() {
 		return true;
 	}
 
-	private int getDistance() {
+	public int getDistance() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	public void approach() {
-		System.err.println(target.name);
-		setApprochingDirection();
-		walk();
-		if (isCaught()) {
-			this.state = State.EATING;
-		}
+
 	}
 	
-	private boolean isCaught() {
-		if (Math.abs(x-target.x)<catchRange&&Math.abs(y-target.y)<catchRange) {
-			return true;
-		}
+	public boolean isCaught() {
 		return false;
 	}
 
 
 
-	private void setApprochingDirection() {
-		// TODO Auto-generated method stub
-		float rate =  (target.x - x)==0?0:((float)(target.y-y )/(float)(x - target.x));
-		direction[0] = approachSpeed;
-		direction[1] = Math.min((int)(approachSpeed*rate), approachSpeed);
+	public void setApprochingDirection() {
+
 	}
 
 	public void sleep() {

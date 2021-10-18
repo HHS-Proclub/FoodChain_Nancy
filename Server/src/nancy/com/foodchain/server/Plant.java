@@ -2,10 +2,12 @@ package nancy.com.foodchain.server;
 
 public class Plant extends Life {
 
-	public Plant(FoodChain foodchain, String name, int x, int y, String icon) {
-		super(foodchain, name, x, y, icon);
+
+	public Plant(FoodChain foodchain, String name, int x, int y, int width, int height, String icon) {
+		super(foodchain, name, x, y, width, height, icon);
 		// TODO Auto-generated constructor stub
 	}
+
 	public int growSpeed = 1;
 	public void run() {
 		super.run();
