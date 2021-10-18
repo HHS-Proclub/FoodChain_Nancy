@@ -20,31 +20,23 @@ import com.google.gson.GsonBuilder;
 public class FoodChainField extends JFrame {
 	Canvas canvas;
 	Graphics g;
+	MyPanel panel;
+	
     // constructor
 	FoodChainField()
     {
         super("canvas");
+        this.panel = new MyPanel(true);
+        add(panel);
+        this.setVisible(true);
+        setSize(1000, 1000);
         // create a empty canvas
-        this.canvas = new Canvas() {
+        /*this.canvas = new Canvas() {
  
             // paint the canvas
             public void paint(Graphics g)
             {
-                // set color to red
-                g.setColor(Color.red);
- 
-                // set Font
-                g.setFont(new Font("Bold", 1, 20));
- 
-                // draw a string
-                g.drawString("ccccc", 100, 100);
-                
-                //circle
-                setSize(400, 400);
-                setVisible(true);
-                Graphics2D g2d = (Graphics2D) g;
-                g2d.drawOval(150, 150, 100, 100);
-                
+
                 for (Map.Entry<String,Life> entry : lifeMap.entrySet()) {
             		Life life = entry.getValue();
             		
@@ -63,10 +55,10 @@ public class FoodChainField extends JFrame {
      
         // set background
         this.canvas.setBackground(Color.white);
- 
+        this.canvas.setBounds(0, 0, 1000, 1000);
         add(this.canvas);
         setSize(1000, 1000);
-        show();
+        show();*/
     }
  
 	public List <Life> lifeList = new ArrayList <Life>();
@@ -103,6 +95,32 @@ public class FoodChainField extends JFrame {
     	//Update life list and map
     	this.lifeList = lifeList;
     	this.lifeMap = newLifeMap;
-    	this.canvas.repaint();
+    	panel.revalidate();
+    	this.repaint();
     }
+    
+    class MyPanel extends JPanel {
+		  public MyPanel() {
+			super();
+			// TODO Auto-generated constructor stub
+		}
+
+		public MyPanel(boolean isDoubleBuffered) {
+			super(isDoubleBuffered);
+			// TODO Auto-generated constructor stub
+		}
+
+
+		public void paintComponent(Graphics g) {
+			for (Map.Entry<String,Life> entry : lifeMap.entrySet()) {
+        		Life life = entry.getValue();
+        		
+        		ImageIcon icon = new ImageIcon(life.icon);
+                Image newImg = icon.getImage().getScaledInstance(life.width, life.height, Image.SCALE_SMOOTH);
+                icon = new ImageIcon(newImg);
+                icon.paintIcon(this, g, life.x, life.y);
+                System.err.println("x="+life.x+" y="+life.y);
+        	}
+		  }
+		}
 }

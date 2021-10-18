@@ -64,7 +64,7 @@ public class Server {
         	//objectOutputStream.writeObject();
         	///foodChain.printList();
             out.println(new StringBuilder(lifeListString));
-        	try{Thread.sleep(2000);}catch(InterruptedException e){System.out.println(e);}  
+        	try{Thread.sleep(500);}catch(InterruptedException e){System.out.println(e);}  
             //close socket when receive "exit"
             if (message.equalsIgnoreCase("exit")) {
                 System.out.println("Session closed!");
