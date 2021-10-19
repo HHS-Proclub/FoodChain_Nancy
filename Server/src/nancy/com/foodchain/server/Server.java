@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
  
 public class Server {
@@ -50,14 +51,27 @@ public class Server {
         	//foodChain.getLifeList()
         	StringBuilder sb = new StringBuilder();
         	List <Life>list = foodChain.getLifeList();
+        	foodChain.total.put("Wolf", "0");
+        	foodChain.total.put("Rabbit", "0");
+        	foodChain.total.put("Dandelion", "0");
+        	foodChain.total.put("Total", "0");
+        	foodChain.nullList = new ArrayList();
+        	int d;
         	for (int i=0; i<list.size();i++) {
         		Life life = list.get(i);
+        		if (life==null) {
+        			foodChain.nullList.add(""+i);
+        			continue;
+        		}
         		if (i==0) {
         			sb.append(life.toJson());
         		} else {
         			sb.append(","+life.toJson());
         		}
-        		
+        		d = Integer.parseInt(foodChain.total.get(life.type));
+        		foodChain.total.put(life.type, ""+(d+1));
+        		d = Integer.parseInt(foodChain.total.get("Total"));
+        		foodChain.total.put("Total", ""+(d+1));
         	}
         	String lifeListString = "["+sb.toString()+"]";
         		

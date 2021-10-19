@@ -1,10 +1,10 @@
 package nancy.com.foodchain.server;
 
-public class Plant extends Life {
+public abstract class Plant extends Life {
 
 
-	public Plant(FoodChain foodchain, String name, int x, int y, int width, int height, String icon) {
-		super(foodchain, name, x, y, width, height, icon);
+	public Plant(FoodChain foodchain, int x, int y, int width, int height, String icon) {
+		super(foodchain, x, y, width, height, icon);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -16,11 +16,26 @@ public class Plant extends Life {
 			//volume+=growSpeed;
 		}
 	}
-	public Life born(String name) {
-		return super.born(name);
-	}
+
 	
-	void doLive() {
+	void handleLive() {
+		switch (state) {		
+		case GROW:
+			grow();
+			break;
+		case DEAD:
+			dead();
+			break;
+		case BORN:
+			born();
+			break;
+		default:
+			break;
+
+	}
+	}
+	private void grow() {
+		// TODO Auto-generated method stub
 		
 	}
 }

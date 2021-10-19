@@ -1,9 +1,12 @@
 package nancy.com.foodchain.server;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
-public class Life implements  Serializable, Runnable{
+public abstract class Life implements  Runnable{
 	FoodChain foodChain;
 	public enum State {
 	    NORMAL,
@@ -11,7 +14,9 @@ public class Life implements  Serializable, Runnable{
 	    SCANNING,
 	    APPROACHING,
 	    EATING, 
-	    DEAD
+	    DEAD, 
+	    BORN, 
+	    GROW
 	}
 	public String name;
 	public int x;
@@ -20,58 +25,103 @@ public class Life implements  Serializable, Runnable{
 	public int volume = 1;
 	public int width = 20;
 	public int height = 20;
+	public String type;
 	public String icon;
+	public int growCount;
+	public int growPeriod = 50;
+	public int bornPeroid = 300;
+	public int bornCount = 300;
+	public int matureSize = 18;
+	public int maxW = 20;
+	public int maxH = 20;
 	public String[] edibleList;
 	public int health = 100;
 	public State state = State.NORMAL;
 	public int deltaHealth = 1;
+	public static int idCount;
+	public Life approacher;
 	public Thread thread;
-	public Life(FoodChain foodchain, String name, int x, int y, int width, int height, String icon) {
+	public int maxAge = 500;
+	public Life(FoodChain foodchain, int x, int y, int width, int height, String icon) {
+		this.type = getType(this);
 		this.foodChain = foodchain;
-		this.name = name;
+		this.name = type+(++idCount);
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
 		this.icon = icon;
+		
+		
 	}
 	public void run() {
 		live();
-		age++;
-		System.out.println("Life.run:"+ age);
+		//System.out.println("Life.run:"+ age);
 		
 	}
 	
 	public void live() {		
 		while (state!=State.DEAD) {			
 			try{Thread.sleep(100);}catch(InterruptedException e){System.out.println(e);}
-			doLive();
+			handleAge();
+			handleLive();			
+			handleBorn();
 		}
 	}
 	
-	public void dead() {
-		List <Life> lifeList = foodChain.getLifeList();
-		for (int i=0; i<lifeList.size();i++) {
-			Life life = lifeList.get(i);
-			if (life == this) {
-				lifeList.remove(i);
-				break;
-			}
+	public void handleAge() {
+		
+		if (++age>maxAge ) {
+			state = State.DEAD;
+			return;
+		};
+		if (--growCount<1) {
+			Random rand = new Random();	
+			growCount = 50+rand.nextInt(growPeriod);
+			width = Math.min(width+1, maxW);
+			height = Math.min(height+1, maxH);
 		}
 		
 	}
-	void doLive() {
+	public void handleBorn() {
+		if (--bornCount<1 && width>=matureSize && foodChain.getLifeList().size()<foodChain.maxThread) {
+			born();
+			Random rand = new Random();	
+			bornCount = 50+rand.nextInt(bornPeroid);
+		}
+	}
+	public void dead() {
+		List <Life> lifeList = foodChain.getLifeList();
+
+		for (int i=0; i<lifeList.size(); i++) {
+	    	Life life = lifeList.get(i);
+	    	if (life==null) {
+	    		continue;
+	    	}
+	    	if (life.name.equals(name)) {
+	    		lifeList.set(i, null);
+	    		break;
+	    	}
+	    }
+
+		System.err.println(this.name+" dead");
+	}
+	void handleLive() {
 		// TODO Auto-generated method stub
 		
 	}
+	public abstract void born();
 	public void update() {
 		// TODO Auto-generated method stub
 		
 	}
-	public Life born(String name) {
-		return new Life(this.foodChain, name, this.x+1, this.y+1, width/3, height/3, icon);
-	}
 	
+	public String getType(Life life) {
+		String name = life.getClass().getName();
+		int index = name.lastIndexOf(".");
+		return name.substring(index+1, name.length());
+	}
+
 	public String toJson( ) {
 		//StringBuilder sb = new StringBuilder();
 		return "{"+

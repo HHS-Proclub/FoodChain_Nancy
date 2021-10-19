@@ -5,10 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class Animal extends Life {
+public abstract class Animal extends Life {
 
-	public Animal(FoodChain foodchain, String name, int x, int y, int width, int height, String icon) {
-		super(foodchain, name, x, y, width, height, icon);
+	public Animal(FoodChain foodchain, int x, int y, int width, int height, String icon) {
+		super(foodchain, x, y, width, height, icon);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -22,16 +22,17 @@ public class Animal extends Life {
 	Life target;
 	public int approachSpeed = 8;
 	
-
+	
 	public int[] direction = new int[]{1,1};
 	public int directionPeriod = 5;
 	public int catchRange = 5;
 	public void run() {
 		super.run();
-		System.out.println("Animal.run");
+		//System.out.println("Animal.run");
 	}
 	
-	void doLive() {
+	void handleLive() {
+		
 		switch (state) {
 			case NORMAL:
 				walk();
@@ -52,6 +53,9 @@ public class Animal extends Life {
 				break;
 			case DEAD:
 				dead();
+				break;
+			case BORN:
+				born();
 				break;
 			default:
 				break;
@@ -92,7 +96,7 @@ public class Animal extends Life {
 			directionPeriod = 5+rand.nextInt(20);
 		}
 		
-		System.err.println(name+":"+x+", "+y);
+		//System.err.println(name+":"+x+", "+y);
 		
 	}
 	
@@ -110,7 +114,7 @@ public class Animal extends Life {
 
 	public int getDistance() {
 		// TODO Auto-generated method stub
-		return 0;
+		return 99999990;
 	}
 
 	public void approach() {

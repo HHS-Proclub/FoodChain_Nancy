@@ -83,7 +83,9 @@ public class FoodChainField extends JFrame {
     	//Loop through new life list to add new life or update existing life
     	for (int i=0; i<lifeList.size();i++) {
 			Life life = lifeList.get(i);
-						
+			if (life==null) {
+	    		continue;
+	    	}			
 			newLifeMap.put(life.name, life);
 		}
     	
@@ -119,7 +121,7 @@ public class FoodChainField extends JFrame {
                 Image newImg = icon.getImage().getScaledInstance(life.width, life.height, Image.SCALE_SMOOTH);
                 icon = new ImageIcon(newImg);
                 icon.paintIcon(this, g, life.x, life.y);
-                System.err.println("x="+life.x+" y="+life.y);
+                //System.err.println("x="+life.x+" y="+life.y);
         	}
 		  }
 		}
