@@ -14,23 +14,33 @@ public class Rabbit extends Animal{
 	public Rabbit(FoodChain foodchain, int x, int y, int width, int height, String icon) {
 		super(foodchain, x, y, width, height, icon);
 		this.edibleList = new String[]{"Dandelion"};
-		this.bornPeroid = 80;
+		this.bornPeriod = 80;
 		Random rand = new Random();	
-		this.bornCount = 200+rand.nextInt(bornPeroid);
+		this.bornCount = 200+rand.nextInt(bornPeriod);
 		maxW = 20;
 		maxH = 20;
-		maxAge = 700;
+		maxAge = 1000;
 		matureSize = 18;
 	}
 
 	public void run() {
 		super.run();
-		volume+=2;
-		//System.out.println("Rabbit.run:" +volume+ "," +age);
 		walk();
 	}
 	public void eat() {
+		//Eater gain more health
+		health+= deltaHealth;
 		
+		//Set eatee to dead
+		//target.state = State.DEAD;
+		target.size = Math.max(target.size-this.biteSize, target.minSize);
+		if (target.size<=target.minSize) {
+			state = State.NORMAL;
+		}
+		
+		//Eater return to nomal state
+		state = State.NORMAL;
+		System.err.println(this.name + " is eating "+target.name);
 	}
 	
 	public boolean isInScanRange() {
@@ -44,6 +54,18 @@ public class Rabbit extends Animal{
 		if (isCaught()) {
 			this.state = State.EATING;
 		}
+	}
+	
+	public void walk() {
+		super.walk();
+		if (state==State.NORMAL) {
+			if (++scanCount>=scanBreak) {
+				//reset turns before scan
+				scanCount = 0;
+				state = State.SCANNING;
+			}
+		}
+		
 	}
 	
 	public boolean isCaught() {
@@ -80,6 +102,7 @@ public class Rabbit extends Animal{
 			if (life==null) {
 				continue;
 			}
+			
 			if (!Arrays.asList(edibleList).contains(life.type) ||!isInScanRange()) {
 				
 				continue;
@@ -94,7 +117,7 @@ public class Rabbit extends Animal{
 		target = null;
 		for (int i=0; i<foundList.size();i++) {
 			Life life = foundList.get(i);
-			if (life==this) {
+			if (life==this||life.size<life.edibleSize) {
 				continue;
 			}
 			int distance = getDistance();
@@ -108,6 +131,7 @@ public class Rabbit extends Animal{
 		
 		if (target != null) {
 			state = State.APPROACHING;
+			System.err.println(this.name+" approach "+target.name);
 			
 		}
 		

@@ -28,21 +28,21 @@ public class FoodChain implements  Serializable{
 		total.put("Null", "0");
 		total.put("Total", "0");
 		
-		for (int i=0; i<1; i++) {
+		for (int i=0; i<0; i++) {
 			Life life = new Wolf(this, (30+rand.nextInt(maxW)), (100+rand.nextInt(maxH)), 2*maxW/3, 2*maxH/3, "wolf.png");
 			lifeList.add(life);		
 			life.thread = new Thread(life);
 			life.thread.start();
 		}
 		
-		for (int i=0; i<10; i++) {
+		for (int i=0; i<1; i++) {
 			Life life = new Rabbit(this, (20+rand.nextInt(maxW)), (100+rand.nextInt(maxH)), 2*maxW/3, 2*maxH/3, "rabbit.png");
 			lifeList.add(life);		
 			life.thread = new Thread(life);
 			life.thread.start();
 		}
 		
-		for (int i=0; i<10; i++) {
+		for (int i=0; i<1; i++) {
 			Life life = new Dandelion(this, (10+rand.nextInt(maxW)), (100+rand.nextInt(maxH)), 2*maxW/3, 2*maxH/3, "dandelion.png");
 			lifeList.add(life);		
 			life.thread = new Thread(life);

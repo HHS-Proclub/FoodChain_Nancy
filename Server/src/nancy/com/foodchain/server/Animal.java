@@ -18,10 +18,10 @@ public abstract class Animal extends Life {
 	public int scanBreak = 5;
 	//helps you count turns to make sure you stop to scan
 	public int scanCount = 0;
-	
+	public int biteSize = 1;
 	Life target;
 	public int approachSpeed = 8;
-	
+	public int health = 100;
 	
 	public int[] direction = new int[]{1,1};
 	public int directionPeriod = 5;

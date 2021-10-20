@@ -22,26 +22,28 @@ public abstract class Life implements  Runnable{
 	public int x;
 	public int y;
 	public int age = 0;
-	public int volume = 1;
+	public int size = 1;
 	public int width = 20;
 	public int height = 20;
 	public String type;
 	public String icon;
 	public int growCount;
 	public int growPeriod = 50;
-	public int bornPeroid = 300;
+	public int bornPeriod = 300;
 	public int bornCount = 300;
 	public int matureSize = 18;
 	public int maxW = 20;
 	public int maxH = 20;
 	public String[] edibleList;
-	public int health = 100;
+	
 	public State state = State.NORMAL;
 	public int deltaHealth = 1;
 	public static int idCount;
 	public Life approacher;
 	public Thread thread;
 	public int maxAge = 500;
+	public int minSize = 1;
+	public int edibleSize = 10;
 	public Life(FoodChain foodchain, int x, int y, int width, int height, String icon) {
 		this.type = getType(this);
 		this.foodChain = foodchain;
@@ -87,7 +89,7 @@ public abstract class Life implements  Runnable{
 		if (--bornCount<1 && width>=matureSize && foodChain.getLifeList().size()<foodChain.maxThread) {
 			born();
 			Random rand = new Random();	
-			bornCount = 50+rand.nextInt(bornPeroid);
+			bornCount = 50+rand.nextInt(bornPeriod);
 		}
 	}
 	public void dead() {
@@ -104,7 +106,7 @@ public abstract class Life implements  Runnable{
 	    	}
 	    }
 
-		System.err.println(this.name+" dead");
+		System.err.println(this.name+" dead.                        total:"+foodChain.total.get("Total")+" wolf:"+foodChain.total.get("Wolf")+" Rabbits:"+foodChain.total.get("Rabbit"));
 	}
 	void handleLive() {
 		// TODO Auto-generated method stub
@@ -131,7 +133,7 @@ public abstract class Life implements  Runnable{
 				"\"width\":"+width+","+
 				"\"height\":"+height+","+
 				"\"age\":"+age+","+
-				"\"volume\":"+volume+","+
+				"\"volume\":"+size+","+
 				"\"width\":"+width+","+
 				"\"height\":"+height+","+
 				"\"icon\":\""+icon+"\""+				

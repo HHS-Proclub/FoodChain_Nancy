@@ -14,7 +14,7 @@ public class Wolf extends Animal{
 		super(foodchain, x, y, width, height, icon);
 		this.edibleList = new String[]{"Rabbit"};
 		Random rand = new Random();	
-		this.bornCount = 450+rand.nextInt(bornPeroid);
+		this.bornCount = 450+rand.nextInt(bornPeriod);
 		maxW = 30;
 		maxH = 30;
 		maxAge = 1100;
@@ -23,8 +23,6 @@ public class Wolf extends Animal{
 
 	public void run() {
 		super.run();
-		volume+=2;
-		//System.out.println("Wolf.run:" +volume+ "," +age);
 		walk();
 	}
 	public void walk() {
@@ -33,7 +31,7 @@ public class Wolf extends Animal{
 			if (++scanCount>=scanBreak) {
 				//reset turns before scan
 				scanCount = 0;
-				scan();
+				state = State.SCANNING;
 			}
 		}
 		

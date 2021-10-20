@@ -9,11 +9,12 @@ public class Dandelion extends Plant{
 	public Dandelion(FoodChain foodchain, int x, int y, int width, int height, String icon) {
 		super(foodchain, x, y, width, height, icon);
 		growSpeed = 2;
+		size = 10;
 		Random rand = new Random();	
-		this.bornCount = 850+rand.nextInt(bornPeroid);
+		this.bornCount = 850+rand.nextInt(bornPeriod);
 		maxW = 40;
 		maxH = 40;
-		maxAge = 1000;
+		maxAge = 9999999;
 		matureSize = 35;
 		// TODO Auto-generated constructor stub
 	}

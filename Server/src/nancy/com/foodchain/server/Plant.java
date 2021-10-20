@@ -6,6 +6,7 @@ public abstract class Plant extends Life {
 	public Plant(FoodChain foodchain, int x, int y, int width, int height, String icon) {
 		super(foodchain, x, y, width, height, icon);
 		// TODO Auto-generated constructor stub
+		edibleSize = 5;
 	}
 
 	public int growSpeed = 1;
