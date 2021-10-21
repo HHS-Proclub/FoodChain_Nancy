@@ -22,18 +22,19 @@ public abstract class Life implements  Runnable{
 	public int x;
 	public int y;
 	public int age = 0;
-	public int size = 1;
+	
 	public int width = 20;
 	public int height = 20;
 	public String type;
 	public String icon;
 	public int growCount;
-	public int growPeriod = 50;
+	public int growPeriod = 10;
 	public int bornPeriod = 300;
 	public int bornCount = 300;
 	public int matureSize = 18;
 	public int maxW = 20;
 	public int maxH = 20;
+	public int size = 1;
 	public String[] edibleList;
 	
 	public State state = State.NORMAL;
@@ -42,8 +43,9 @@ public abstract class Life implements  Runnable{
 	public Life approacher;
 	public Thread thread;
 	public int maxAge = 500;
-	public int minSize = 1;
+	public int minSize = 0;
 	public int edibleSize = 10;
+	public double weathFactor = 1;
 	public Life(FoodChain foodchain, int x, int y, int width, int height, String icon) {
 		this.type = getType(this);
 		this.foodChain = foodchain;
@@ -58,6 +60,7 @@ public abstract class Life implements  Runnable{
 	}
 	public void run() {
 		live();
+		
 		//System.out.println("Life.run:"+ age);
 		
 	}
@@ -69,24 +72,27 @@ public abstract class Life implements  Runnable{
 			handleLive();			
 			handleBorn();
 		}
+		foodChain.threadCount--;
 	}
 	
 	public void handleAge() {
 		
-		if (++age>maxAge ) {
+		if (++age>maxAge || size<1) {
 			state = State.DEAD;
 			return;
 		};
 		if (--growCount<1) {
 			Random rand = new Random();	
-			growCount = 50+rand.nextInt(growPeriod);
-			width = Math.min(width+1, maxW);
-			height = Math.min(height+1, maxH);
+			growCount = 10+rand.nextInt(growPeriod);
+			size = Math.min(size+((int)(foodChain.weatherCondition*weathFactor)) , maxW);
 		}
+		
+		width = height =size;
+		
 		
 	}
 	public void handleBorn() {
-		if (--bornCount<1 && width>=matureSize && foodChain.getLifeList().size()<foodChain.maxThread) {
+		if (--bornCount<1 && width>=matureSize && foodChain.threadCount<foodChain.maxThread) {
 			born();
 			Random rand = new Random();	
 			bornCount = 50+rand.nextInt(bornPeriod);
@@ -100,7 +106,7 @@ public abstract class Life implements  Runnable{
 	    	if (life==null) {
 	    		continue;
 	    	}
-	    	if (life.name.equals(name)) {
+	    	if (life.state==State.DEAD) {
 	    		lifeList.set(i, null);
 	    		break;
 	    	}
@@ -123,6 +129,10 @@ public abstract class Life implements  Runnable{
 		int index = name.lastIndexOf(".");
 		return name.substring(index+1, name.length());
 	}
+	
+	public int getDistance(Life life) {
+		return (int) Math.sqrt(Math.pow(Math.abs(y-life.y), 2)+Math.pow(Math.abs(x-life.x), 2));
+	}
 
 	public String toJson( ) {
 		//StringBuilder sb = new StringBuilder();
@@ -136,7 +146,8 @@ public abstract class Life implements  Runnable{
 				"\"volume\":"+size+","+
 				"\"width\":"+width+","+
 				"\"height\":"+height+","+
-				"\"icon\":\""+icon+"\""+				
+				"\"icon\":\""+icon+"\","+
+				"\"state\":\""+state.toString()+"\""+
 				"}";
 	}
 

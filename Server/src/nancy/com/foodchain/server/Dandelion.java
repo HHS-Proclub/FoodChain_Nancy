@@ -10,12 +10,15 @@ public class Dandelion extends Plant{
 		super(foodchain, x, y, width, height, icon);
 		growSpeed = 2;
 		size = 10;
+		this.bornPeriod = 350;
 		Random rand = new Random();	
-		this.bornCount = 850+rand.nextInt(bornPeriod);
+		this.bornCount = 20+rand.nextInt(bornPeriod);
 		maxW = 40;
 		maxH = 40;
 		maxAge = 9999999;
 		matureSize = 35;
+		minSize = 5;
+		size = ((int)(maxW/2));
 		// TODO Auto-generated constructor stub
 	}
 
@@ -26,11 +29,24 @@ public class Dandelion extends Plant{
 
 	@Override
 	public void born(){
-		Random rand = new Random();
-		Life life = new Dandelion(this.foodChain, this.x+20+rand.nextInt(100), this.y+20+rand.nextInt(100), maxW/2, maxH/2, icon);
-		foodChain.lifeList.add(life);
+		if (size<matureSize) {
+			return;
+		}
+		Random rand = new Random();	
+		Life life = new Dandelion(this.foodChain, this.x+(rand.nextInt(3)>1?-1:1)*(20+rand.nextInt(100)), this.y+(rand.nextInt(3)>1?-1:1)*(20+rand.nextInt(100)), maxW/5, maxH/5, icon);
+		if (foodChain.nullList.size()>0) {
+			try {
+				foodChain.lifeList.set(Integer.parseInt(foodChain.nullList.get(0)), life);
+			} catch (java.lang.IndexOutOfBoundsException e) {
+				foodChain.lifeList.add(life);
+			}
+		} else {;
+			foodChain.lifeList.add(life);
+		}
+		
 		life.thread = new Thread(life);
 		life.thread.start();
+		foodChain.threadCount++;
 		state = State.NORMAL;
 	}
 }

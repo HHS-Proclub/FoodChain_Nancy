@@ -11,6 +11,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+
+import nancy.com.foodchain.server.Life.State;
  
 public class Server {
  
@@ -59,7 +61,7 @@ public class Server {
         	int d;
         	for (int i=0; i<list.size();i++) {
         		Life life = list.get(i);
-        		if (life==null) {
+        		if (life==null || life.state==State.DEAD) {
         			foodChain.nullList.add(""+i);
         			continue;
         		}
@@ -78,7 +80,7 @@ public class Server {
         	//objectOutputStream.writeObject();
         	///foodChain.printList();
             out.println(new StringBuilder(lifeListString));
-        	try{Thread.sleep(10);}catch(InterruptedException e){System.out.println(e);}  
+        	//try{Thread.sleep(10);}catch(InterruptedException e){System.out.println(e);}  
             //close socket when receive "exit"
             if (message.equalsIgnoreCase("exit")) {
                 System.out.println("Session closed!");

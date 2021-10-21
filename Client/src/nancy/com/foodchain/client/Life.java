@@ -3,7 +3,7 @@ package nancy.com.foodchain.client;
 
 public class Life {
 
-	public Life(String name, int x, int y, int age, int volume, int width, int height, String icon) {
+	public Life(String name, int x, int y, int age, int volume, int width, int height, String icon, String state) {
 		super();
 		this.name = name;
 		this.x = x;
@@ -13,7 +13,10 @@ public class Life {
 		this.width = width;
 		this.height = height;
 		this.icon = icon;
+		this.state = state;
 	}
+	
+	
 	public String name;
 	public int x;
 	public int y;
@@ -22,6 +25,7 @@ public class Life {
 	public int width = 20;
 	public int height = 20;
 	public String icon;
+	public String state;
 	
 
 }

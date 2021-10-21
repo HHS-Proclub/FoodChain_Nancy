@@ -7,6 +7,8 @@ public abstract class Plant extends Life {
 		super(foodchain, x, y, width, height, icon);
 		// TODO Auto-generated constructor stub
 		edibleSize = 5;
+		this.weathFactor = 2.0/foodChain.weatherCondition;
+		growPeriod = 20;
 	}
 
 	public int growSpeed = 1;

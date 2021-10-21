@@ -14,11 +14,15 @@ public class Wolf extends Animal{
 		super(foodchain, x, y, width, height, icon);
 		this.edibleList = new String[]{"Rabbit"};
 		Random rand = new Random();	
-		this.bornCount = 450+rand.nextInt(bornPeriod);
+		this.bornCount = 250+rand.nextInt(bornPeriod);
 		maxW = 30;
 		maxH = 30;
-		maxAge = 1100;
+		maxAge = 2100;
 		matureSize = 25;
+		bitSize = 5;
+		hungryPeriod = 150;
+		size = ((int)(maxW/2));
+		scanRange = 500;
 	}
 
 	public void run() {
@@ -28,27 +32,28 @@ public class Wolf extends Animal{
 	public void walk() {
 		super.walk();
 		if (state==State.NORMAL) {
-			if (++scanCount>=scanBreak) {
-				//reset turns before scan
-				scanCount = 0;
+			hungryCount = Math.max(0, hungryCount-1);
+			if (--scanCount<1 && hungryCount<1) {
+				scanCount = scanPeriod;
 				state = State.SCANNING;
 			}
 		}
 		
 	}
-	public void eat() {
+	public boolean eat() {
+		if (super.eat()==false) {
+			return false;
+		}
 		//Eater gain more health
 		health+= deltaHealth;
+		target.size -= bitSize;
+
+		//Eater return to normal state
+		if (target.size<1) {
+			state = State.NORMAL;
+		}
 		
-		//Set eatee to dead
-		target.state = State.DEAD;
-		
-		//Eater return to nomal state
-		state = State.NORMAL;
 		System.err.println(this.name + " is eating "+target.name);
-	}
-	
-	public boolean isInScanRange() {
 		return true;
 	}
 	
@@ -78,6 +83,7 @@ public class Wolf extends Animal{
 		foodChain.lifeList.add(life);
 		life.thread = new Thread(life);
 		life.thread.start();
+		foodChain.threadCount++;
 		state = State.NORMAL;
 		System.err.println("born "+life.name+" from "+this.name);
 	}
@@ -113,7 +119,7 @@ public class Wolf extends Animal{
 				continue;
 			}
 
-			if (!Arrays.asList(edibleList).contains(life.type) ||!isInScanRange()) {
+			if (!Arrays.asList(edibleList).contains(life.type) ||!isInScanRange(life)) {
 				//currently only approach first found
 				continue;
 				
@@ -122,6 +128,20 @@ public class Wolf extends Animal{
 			
 			
 		}
+		
+		if (foundList.size()>0) {
+			Random rand = new Random();	
+			int targetIndex = rand.nextInt(foundList.size());
+			target = foundList.get(targetIndex);
+			state = State.APPROACHING;
+			target.approacher = this;
+			System.err.println(this.name+" approach "+target.name);
+		}else {
+			state = State.NORMAL;
+			
+		}
+		
+		/*
 
 		int minDistance = 99999999;
 		target = null;
@@ -147,7 +167,7 @@ public class Wolf extends Animal{
 			state = State.APPROACHING;
 			System.err.println(this.name+" approach "+target.name);
 		}
-		
+		*/
 	}
 	
 }

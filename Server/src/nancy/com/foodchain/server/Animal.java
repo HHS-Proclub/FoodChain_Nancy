@@ -9,23 +9,31 @@ public abstract class Animal extends Life {
 
 	public Animal(FoodChain foodchain, int x, int y, int width, int height, String icon) {
 		super(foodchain, x, y, width, height, icon);
-		// TODO Auto-generated constructor stub
+		this.weathFactor = 1.0/foodChain.weatherCondition;
 	}
 
 	//the circular scan area
-	public int scanRange = 20;
+	public int scanRange = 200;
 	//# of turns (5) before stopping to scan
-	public int scanBreak = 5;
+	public int scanPeriod = 20;
 	//helps you count turns to make sure you stop to scan
-	public int scanCount = 0;
+	public int scanCount = scanPeriod;
 	public int biteSize = 1;
 	Life target;
 	public int approachSpeed = 8;
 	public int health = 100;
-	
+	public int healthPeriod = 5;
+	public int bornHealthMin = 50;
+	public int healthCount = healthPeriod;
+	public int []healthLevel = new int[] {80, 60, 40, 20, 5}; 
 	public int[] direction = new int[]{1,1};
 	public int directionPeriod = 5;
-	public int catchRange = 5;
+	public int catchRange = 20;
+	public int eatPeriod = 10;
+	public int bitSize = 1;
+	public int eatCount = eatPeriod;
+	public int hungryPeriod = 50;
+	public int hungryCount = hungryPeriod;
 	public void run() {
 		super.run();
 		//System.out.println("Animal.run");
@@ -61,11 +69,38 @@ public abstract class Animal extends Life {
 				break;
 	
 		}
+		handleHealth();
 	}
 	
-	
+
+	private void handleHealth() {
+		if (health<1) {
+			state = State.DEAD;
+			return;
+		}
+		
+		if (--healthCount<1) {
+			healthCount = healthPeriod;
+			health--;
+		}
+		
+		boolean found = false;
+		for (int i=4; i>-1;i--) {
+			if (health<healthLevel[4]) {
+				icon = (type+4+".png").toLowerCase();
+				found = true;
+			}
+		}
+		if (!found) {
+			icon = (type+".png").toLowerCase();
+		}
+		
+	}
 
 	public void walk() {
+		if (approacher!=null && approacher.state==State.EATING) {
+			return;
+		}
 		Random rand = new Random();	
 		
 		
@@ -100,16 +135,24 @@ public abstract class Animal extends Life {
 		
 	}
 	
-	public void eat() {
-		
+	public boolean eat() {
+		if (--eatCount<1) {
+			eatCount = eatPeriod;
+			hungryCount = hungryPeriod;
+			return true;
+		}
+		return false;
 	}
 	
 	public void scan() {
 		
 	}
 	
-	public boolean isInScanRange() {
-		return true;
+	public boolean isInScanRange(Life life) {
+		if (getDistance(life) <= scanRange) {
+			return true;
+		}
+		return false;
 	}
 
 	public int getDistance() {
