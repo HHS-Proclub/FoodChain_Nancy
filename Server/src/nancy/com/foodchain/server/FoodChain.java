@@ -16,6 +16,7 @@ public class FoodChain implements  Serializable{
 	public List<String>nullList = new ArrayList();
 	public int weatherConditionMax = 10;
 	public int weatherCondition = 5;
+	public boolean test = false;
 	public static void main(String[] args) {
 		new FoodChain().doIt();
 
@@ -73,6 +74,13 @@ public class FoodChain implements  Serializable{
 				continue;
 			}
 			System.err.println("name=" + life.name+"x="+life.x + ", y=" + life.y);
+		}
+	}
+	
+	public void setField(KeyValue field) {
+		if (field.key.equals("weatherCondition")) {
+			weatherCondition = Integer.parseInt(field.value);
+			System.err.println("weatherCondition="+weatherCondition);
 		}
 	}
 }

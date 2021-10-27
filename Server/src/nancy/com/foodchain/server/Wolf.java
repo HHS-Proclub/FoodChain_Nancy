@@ -53,7 +53,9 @@ public class Wolf extends Animal{
 			state = State.NORMAL;
 		}
 		
-		System.err.println(this.name + " is eating "+target.name);
+		if (foodChain.test) {
+			System.err.println(this.name + " is eating "+target.name);
+		}
 		return true;
 	}
 	
@@ -85,7 +87,9 @@ public class Wolf extends Animal{
 		life.thread.start();
 		foodChain.threadCount++;
 		state = State.NORMAL;
-		System.err.println("born "+life.name+" from "+this.name);
+		if (foodChain.test) {
+			System.err.println("born "+life.name+" from "+this.name);
+		}
 	}
 	public void setApprochingDirection() {
 		if (x>target.x) {
@@ -135,7 +139,9 @@ public class Wolf extends Animal{
 			target = foundList.get(targetIndex);
 			state = State.APPROACHING;
 			target.approacher = this;
-			System.err.println(this.name+" approach "+target.name);
+			if (foodChain.test) {
+				System.err.println(this.name+" approach "+target.name);
+			}
 		}else {
 			state = State.NORMAL;
 			

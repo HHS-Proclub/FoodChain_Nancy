@@ -51,7 +51,9 @@ public class Rabbit extends Animal{
 		if (target.size<1) {
 			state = State.NORMAL;
 		}
-		System.err.println(this.name + " is eating "+target.name);
+		if (foodChain.test) {
+			System.err.println(this.name + " is eating "+target.name);
+		}
 		return true;
 	}
 	
@@ -136,7 +138,9 @@ public class Rabbit extends Animal{
 			target = foundList.get(targetIndex);
 			state = State.APPROACHING;
 			target.approacher = this;
-			System.err.println(this.name+" approach "+target.name);
+			if (foodChain.test) {
+				System.err.println(this.name+" approach "+target.name);
+			}
 		} else {
 			state = State.NORMAL;
 			scanCount = scanPeriod;

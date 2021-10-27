@@ -112,7 +112,9 @@ public abstract class Life implements  Runnable{
 	    	}
 	    }
 
-		System.err.println(this.name+" dead.                        total:"+foodChain.total.get("Total")+" wolf:"+foodChain.total.get("Wolf")+" Rabbits:"+foodChain.total.get("Rabbit"));
+		if (foodChain.test) {
+			System.err.println(this.name+" dead.                        total:"+foodChain.total.get("Total")+" wolf:"+foodChain.total.get("Wolf")+" Rabbits:"+foodChain.total.get("Rabbit"));
+		}
 	}
 	void handleLive() {
 		// TODO Auto-generated method stub

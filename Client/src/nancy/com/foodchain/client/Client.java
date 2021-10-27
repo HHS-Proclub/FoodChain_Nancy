@@ -14,62 +14,51 @@ import java.util.List;
 import nancy.com.foodchain.server.Life;
  
 public class Client {
- 
+	FoodChainField field;
+	public Socket socket;
+	public int weatherCondition = 5;
     public static void main(String[] args) throws IOException {
- 
-        System.out.println("Client is starting...");
- 
-        Socket socket = null;
- 
-        try {
-            //localhost because server running on my machine otherwise IP address of Server machine
-            socket = new Socket("localhost", 8081);
-        } catch (Exception e) {
-            System.out.println("Initializing error. Make sure that server is alive!\n" + e);
-        }
-        FoodChainField field = new FoodChainField();
-        //use sending message to server
-        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
- 
-        //use receiving message from server
-        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        
-     // get the input stream from the connected socket
-        InputStream inputStream = socket.getInputStream();
-        // create a DataInputStream so we can read data from it.
-        ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
-        out.println("test");
-        while (true) {
-        	
-
-			//List<Life> lifeList = (List<Life>) objectInputStream.readObject();
-    		String jsonString = in.readLine();
-			field.update(jsonString);
-
-            //receive message
-           // System.out.println("<New message from server> " + in.readLine());
- 
-            //get text from user
-           // BufferedReader data = new BufferedReader(new InputStreamReader(System.in));
-            //String message = data.readLine();
- 
-            //send message
-            //out.println(message);
- 
-            //receive response
-           // System.out.println("<Response from server> " + in.readLine());
- 
-            //close socket when receive exit
-           /* if (message.equalsIgnoreCase("exit")) {
-                out.close();
-                objectInputStream.close();
-                //data.close();
-                socket.close();
-                break;
-            }*/
- 
-        }
- 
+    	new Client().doIt();
     }
+    
+    void doIt() throws IOException {
+    	
+    	Thread updateClient = new Thread(new UpdateClient(this));   	  	
+    	field = new FoodChainField(this);
+    	updateClient.start();
+    	socket = new Socket("localhost", 8082);
+    	
+    }
+    
+    class UpdateClient implements Runnable{
+    	public UpdateClient(Client client) {
+			super();
+			this.client = client;
+		}
+
+    	Client client;
+
+		@Override
+		public void run() {		
+			System.err.println("Enter run in UpdateClient");
+	        try {
+	            //localhost because server running on my machine otherwise IP address of Server machine
+	        	Socket socket = new Socket("localhost", 8081);
+	            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		        out.println("[]");
+		        while (true) {
+		    		String jsonString = in.readLine();
+					field.update(jsonString);
+		        }
+	        } catch (Exception e) {
+	            System.out.println("Initializing error. Make sure that server is alive!\n" + e);
+	        }
+			
+		}
+    	
+    }
+    
+   
  
 }
