@@ -1,11 +1,17 @@
 package nancy.com.foodchain.server;
 
-class KeyValue {
+public class KeyValue {
 	public KeyValue(String key, String value) {
 		super();
 		this.key = key;
 		this.value = value;
 	}
-	String key;
-	String value;
+	public String key;
+	public String value;
+	public Object toJson() {
+		return "{"+
+				"\"key\":\""+key+"\","+
+				"\"value\":\""+value+"\""+
+				"}";
+	}
 }

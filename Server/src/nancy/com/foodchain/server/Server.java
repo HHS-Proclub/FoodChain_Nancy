@@ -105,9 +105,26 @@ public class Server {
                 BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 String controlMsg = in.readLine();
                 while (true) {
-                	new ControlMessage(foodChain, controlMsg).apply();
+                	ControlMessage msgs = new ControlMessage(foodChain, controlMsg);
+                	msgs.apply();
+                	StringBuilder sb = new StringBuilder();
+                	for (int i=0; i<msgs.fields.size(); i++) {
+            			KeyValue field = msgs.fields.get(i);
+            			if (field.value==null) {
+            				foodChain.setFieldValue(field);
+            			}
+            			sb.append(field.toJson());
+            			//keyValue toJson()
+            			
+            		}
+                	
+                	String resString = "["+sb.toString()+"]";
+                	out.println(resString);
+                	//reply^^
                 	controlMsg = in.readLine();
+                	//block^^
                 }
+                
             } catch (Exception e) {
                 System.out.println("Initializing error. Try changing port number!" + e);
             }			

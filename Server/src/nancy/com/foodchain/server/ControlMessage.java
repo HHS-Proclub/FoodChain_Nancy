@@ -7,6 +7,7 @@ import nancy.com.foodchain.client.Life;
 
 public class ControlMessage {
 	FoodChain foodChain;
+	List<KeyValue> fields;
 	public ControlMessage(FoodChain foodChain, String msg) {
 		super();
 		this.msg = msg;
@@ -17,7 +18,7 @@ public class ControlMessage {
 	
 	public void apply() {
 		Gson gson = new Gson();
-		List<KeyValue> fields = Arrays.asList(gson.fromJson(msg, KeyValue[].class));
+		fields = Arrays.asList(gson.fromJson(msg, KeyValue[].class));
 		for (int i=0; i<fields.size(); i++) {
 			KeyValue field = fields.get(i);
 			foodChain.setField(field);

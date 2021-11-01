@@ -78,9 +78,21 @@ public class FoodChain implements  Serializable{
 	}
 	
 	public void setField(KeyValue field) {
+		if (field.value==null) {
+			return;
+		}
+			
 		if (field.key.equals("weatherCondition")) {
 			weatherCondition = Integer.parseInt(field.value);
 			System.err.println("weatherCondition="+weatherCondition);
 		}
+	}
+
+	public void setFieldValue(KeyValue field) {
+		if (field.key.equals("weatherCondition")) {
+			field.value = ""+ weatherCondition;
+			System.err.println("weatherCondition="+weatherCondition);
+		}
+		
 	}
 }

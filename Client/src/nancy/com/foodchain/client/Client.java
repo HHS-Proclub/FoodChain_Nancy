@@ -9,14 +9,18 @@ import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.List;
 
+import com.google.gson.Gson;
+
+import nancy.com.foodchain.server.KeyValue;
 import nancy.com.foodchain.server.Life;
  
 public class Client {
 	FoodChainField field;
 	public Socket socket;
-	public int weatherCondition = 5;
+	public int weatherCondition;
     public static void main(String[] args) throws IOException {
     	new Client().doIt();
     }
@@ -27,10 +31,27 @@ public class Client {
     	field = new FoodChainField(this);
     	updateClient.start();
     	socket = new Socket("localhost", 8082);
+    	init();
     	
     }
     
-    class UpdateClient implements Runnable{
+    private void init() {
+		// TODO Auto-generated method stub
+    	PrintWriter out;
+		try {
+			out = new PrintWriter(socket.getOutputStream(), true);
+			out.println("[{\"key\":\"weatherCondition\","+"\"value\":null}]");	
+			BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));		
+	        String respond = in.readLine();
+	        processServerResponse(respond);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+        		
+	}
+
+	class UpdateClient implements Runnable{
     	public UpdateClient(Client client) {
 			super();
 			this.client = client;
@@ -58,6 +79,27 @@ public class Client {
 		}
     	
     }
+
+	public void processServerResponse(String msg) {
+		Gson gson = new Gson();
+		List<KeyValue> fields = Arrays.asList(gson.fromJson(msg, KeyValue[].class));
+		for (int i=0; i<fields.size(); i++) {
+			KeyValue field = fields.get(i);
+			setField(field);
+			
+		}
+	}
+
+	public void setField(KeyValue field) {
+		if (field.value==null) {
+			return;
+		}
+			
+		if (field.key.equals("weatherCondition")) {
+			weatherCondition = Integer.parseInt(field.value);
+			System.err.println("weatherCondition="+weatherCondition);
+		}
+	}
     
    
  

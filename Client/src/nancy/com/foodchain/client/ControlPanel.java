@@ -25,6 +25,8 @@ import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import nancy.com.foodchain.server.KeyValue;
+
 
 public class ControlPanel extends JDialog implements ActionListener  {
 	   private String[] data;
@@ -85,8 +87,11 @@ public class ControlPanel extends JDialog implements ActionListener  {
 	        public void stateChanged(ChangeEvent e) {
 		        System.out.println("Slider1: " + slider.getValue());
 		        try {
-			            PrintWriter out = new PrintWriter(client.socket.getOutputStream(), true);		                
-				        out.println("[{\"key\":\""+key+"\","+"\"value\":"+slider.getValue()+"}]");				        
+			            PrintWriter out = new PrintWriter(client.socket.getOutputStream(), true);	
+			            BufferedReader in = new BufferedReader(new InputStreamReader(client.socket.getInputStream()));
+				        out.println("["+new KeyValue(key,""+slider.getValue()).toJson()+"]");				
+				        String respond = in.readLine();
+				        client.processServerResponse(respond);
 		        } catch (Exception ee) {
 		            System.out.println("Initializing error. Make sure that server is alive!\n" + ee);
 		        }
