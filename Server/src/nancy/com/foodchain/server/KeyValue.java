@@ -11,7 +11,9 @@ public class KeyValue {
 	public Object toJson() {
 		return "{"+
 				"\"key\":\""+key+"\","+
-				"\"value\":\""+value+"\""+
+				"\"value\":"+((value instanceof String)?("\""+value+"\""):value)+
 				"}";
 	}
 }
+
+

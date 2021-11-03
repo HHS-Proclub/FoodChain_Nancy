@@ -9,7 +9,6 @@ public abstract class Animal extends Life {
 
 	public Animal(FoodChain foodchain, int x, int y, int width, int height, String icon) {
 		super(foodchain, x, y, width, height, icon);
-		this.weathFactor = 1.0/foodChain.weatherCondition;
 	}
 
 	//the circular scan area

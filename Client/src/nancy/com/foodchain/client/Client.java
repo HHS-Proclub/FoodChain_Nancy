@@ -21,6 +21,7 @@ public class Client {
 	FoodChainField field;
 	public Socket socket;
 	public int weatherCondition;
+	public int wolfBornPeriod;
     public static void main(String[] args) throws IOException {
     	new Client().doIt();
     }
@@ -40,7 +41,10 @@ public class Client {
     	PrintWriter out;
 		try {
 			out = new PrintWriter(socket.getOutputStream(), true);
-			out.println("[{\"key\":\"weatherCondition\","+"\"value\":null}]");	
+			StringBuilder sb = new StringBuilder();
+			sb.append(new KeyValue("weatherCondition", null).toJson());
+			sb.append(","+new KeyValue("wolfBornPeriod", null).toJson());
+			out.println("["+ sb.toString()  +"]");	
 			BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));		
 	        String respond = in.readLine();
 	        processServerResponse(respond);
@@ -98,6 +102,10 @@ public class Client {
 		if (field.key.equals("weatherCondition")) {
 			weatherCondition = Integer.parseInt(field.value);
 			System.err.println("weatherCondition="+weatherCondition);
+		}
+		if (field.key.equals("wolfBornPeriod")) {
+			wolfBornPeriod = Integer.parseInt(field.value);
+			System.err.println("wolfBornPeriod="+wolfBornPeriod);
 		}
 	}
     

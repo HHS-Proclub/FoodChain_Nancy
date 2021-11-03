@@ -113,7 +113,12 @@ public class Server {
             			if (field.value==null) {
             				foodChain.setFieldValue(field);
             			}
-            			sb.append(field.toJson());
+            			if (i>0) {
+            				sb.append(","+field.toJson());
+            			} else {
+            				sb.append(field.toJson());
+            			}
+            			
             			//keyValue toJson()
             			
             		}

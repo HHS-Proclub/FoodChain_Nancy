@@ -22,15 +22,18 @@ public abstract class Life implements  Runnable{
 	public int x;
 	public int y;
 	public int age = 0;
-	
+	public static int BORN_PERIOD = 300;
 	public int width = 20;
 	public int height = 20;
 	public String type;
 	public String icon;
-	public int growCount;
-	public int growPeriod = 10;
-	public int bornPeriod = 300;
-	public int bornCount = 300;
+	public int growCount;	
+	public int growPeriodOrigin = 10;
+	public int growPeriod = growPeriodOrigin;
+	public int bornPeriodOrigin = BORN_PERIOD;
+	public int bornPeriod = bornPeriodOrigin;
+	
+	public int bornCount = bornPeriod;
 	public int matureSize = 18;
 	public int maxW = 20;
 	public int maxH = 20;
@@ -45,7 +48,6 @@ public abstract class Life implements  Runnable{
 	public int maxAge = 500;
 	public int minSize = 0;
 	public int edibleSize = 10;
-	public double weathFactor = 1;
 	public Life(FoodChain foodchain, int x, int y, int width, int height, String icon) {
 		this.type = getType(this);
 		this.foodChain = foodchain;
@@ -83,8 +85,9 @@ public abstract class Life implements  Runnable{
 		};
 		if (--growCount<1) {
 			Random rand = new Random();	
-			growCount = 10+rand.nextInt(growPeriod);
-			size = Math.min(size+((int)(foodChain.weatherCondition*weathFactor)) , maxW);
+			growPeriod = ((this instanceof Animal)?growPeriod:(growPeriodOrigin/foodChain.weatherCondition));
+			growCount = 3+rand.nextInt(growPeriod);
+			size = Math.min(size+ 1, maxW);
 		}
 		
 		width = height =size;
@@ -95,6 +98,7 @@ public abstract class Life implements  Runnable{
 		if (--bornCount<1 && width>=matureSize && foodChain.threadCount<foodChain.maxThread) {
 			born();
 			Random rand = new Random();	
+			bornPeriod = ((this instanceof Animal)?bornPeriod:(bornPeriodOrigin/foodChain.weatherCondition));
 			bornCount = 50+rand.nextInt(bornPeriod);
 		}
 	}

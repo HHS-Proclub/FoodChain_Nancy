@@ -2,10 +2,12 @@ package nancy.com.foodchain.server;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import nancy.com.foodchain.server.Animal;
 
 public class FoodChain implements  Serializable{
 	public List <Life> lifeList = new ArrayList <Life>();
@@ -15,7 +17,8 @@ public class FoodChain implements  Serializable{
 	public Map <String, String>total = new HashMap();
 	public List<String>nullList = new ArrayList();
 	public int weatherConditionMax = 10;
-	public int weatherCondition = 5;
+	public int weatherCondition = 1;
+	public int wolfBornPeriod = Life.BORN_PERIOD;
 	public boolean test = false;
 	public static void main(String[] args) {
 		new FoodChain().doIt();
@@ -85,6 +88,17 @@ public class FoodChain implements  Serializable{
 		if (field.key.equals("weatherCondition")) {
 			weatherCondition = Integer.parseInt(field.value);
 			System.err.println("weatherCondition="+weatherCondition);
+		} else if (field.key.equals("wolfBornPeriod")) {
+			for (int i=0; i<lifeList.size();i++) {
+				Life life = lifeList.get(i);
+				if (life==null || !(life instanceof Wolf)) {
+					continue;
+				}
+
+				life.bornPeriod = Integer.parseInt(field.value);
+					
+			}
+			
 		}
 	}
 
@@ -92,6 +106,9 @@ public class FoodChain implements  Serializable{
 		if (field.key.equals("weatherCondition")) {
 			field.value = ""+ weatherCondition;
 			System.err.println("weatherCondition="+weatherCondition);
+		} else if (field.key.equals("wolfBornPeriod")) {
+			field.value = ""+ wolfBornPeriod;
+			
 		}
 		
 	}

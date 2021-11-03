@@ -26,7 +26,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import nancy.com.foodchain.server.KeyValue;
-
+import nancy.com.foodchain.server.Life;
 
 public class ControlPanel extends JDialog implements ActionListener  {
 	   private String[] data;
@@ -47,6 +47,7 @@ public class ControlPanel extends JDialog implements ActionListener  {
 	      gbc.insets = new Insets(2,2,2,2);
 	      
 	      panel.add(addSlider("Weather Condition", "weatherCondition", 1, 10, client.weatherCondition));	
+	      panel.add(addSlider("Birth Period: Wolf", "bornPeriod", 1, Life.BORN_PERIOD, client.wolfBornPeriod));	
 	      
 	      btnOk = new JButton("Ok");
 	      btnOk.addActionListener(this);
