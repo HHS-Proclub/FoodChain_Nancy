@@ -10,7 +10,7 @@ public class Dandelion extends Plant{
 		super(foodchain, x, y, width, height, icon);
 		growSpeed = 2;
 		size = 10;
-		this.bornPeriod = 350;
+		this.bornPeriod = 250;
 		Random rand = new Random();	
 		this.bornCount = 20+rand.nextInt(bornPeriod);
 		maxW = 40;

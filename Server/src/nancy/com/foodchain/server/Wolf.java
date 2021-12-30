@@ -10,15 +10,16 @@ import nancy.com.foodchain.server.Life.State;
 public class Wolf extends Animal{
 
 
-	public Wolf(FoodChain foodchain, int x, int y, int width, int height, String icon) {
+	public Wolf(FoodChain foodchain, int x, int y, int width, int height, String icon, int _bornPeriod) {
 		super(foodchain, x, y, width, height, icon);
 		this.edibleList = new String[]{"Rabbit"};
 		Random rand = new Random();	
-		this.bornCount = 250+rand.nextInt(bornPeriod);
+		this.bornPeriod = _bornPeriod>0?(20+rand.nextInt(_bornPeriod)):(Life.BORN_PERIOD/2+rand.nextInt(bornPeriod));
+		this.bornCount = this.bornPeriod;
 		maxW = 30;
 		maxH = 30;
-		maxAge = 2100;
-		matureSize = 25;
+		maxAge = 6500 +rand.nextInt(3000);
+		matureSize = 15;
 		bitSize = 5;
 		hungryPeriod = 150;
 		size = ((int)(maxW/2));
@@ -79,9 +80,8 @@ public class Wolf extends Animal{
 		}
 		return false;
 	}
-	public void born(){
-			
-		Life life = new Wolf(this.foodChain, this.x+1, this.y+1, maxW/2, maxH/2, icon);
+	public void born(){	
+		Life life = new Wolf(this.foodChain, this.x+1, this.y+1, maxW/2, maxH/2, icon, bornPeriod);
 		foodChain.lifeList.add(life);
 		life.thread = new Thread(life);
 		life.thread.start();
@@ -123,7 +123,7 @@ public class Wolf extends Animal{
 				continue;
 			}
 
-			if (!Arrays.asList(edibleList).contains(life.type) ||!isInScanRange(life)) {
+			if (!Arrays.asList(edibleList).contains(life.lifeType) ||!isInScanRange(life)) {
 				//currently only approach first found
 				continue;
 				
@@ -175,5 +175,4 @@ public class Wolf extends Animal{
 		}
 		*/
 	}
-	
 }

@@ -11,20 +11,21 @@ public class Rabbit extends Animal{
 
 	
 	
-	public Rabbit(FoodChain foodchain, int x, int y, int width, int height, String icon) {
+	public Rabbit(FoodChain foodchain, int x, int y, int width, int height, String icon, int _bornPeriod) {
 		super(foodchain, x, y, width, height, icon);
 		this.edibleList = new String[]{"Dandelion"};
-		this.bornPeriod = 200;
 		Random rand = new Random();	
-		this.bornCount = 200+rand.nextInt(bornPeriod);
+		this.bornPeriod = _bornPeriod>0?(10+rand.nextInt(_bornPeriod/2)):(20+rand.nextInt(bornPeriod));
+		
+		this.bornCount = bornPeriod;
 		maxW = 20;
 		maxH = 20;
-		maxAge = 1000;
-		matureSize = 18;
+		maxAge = 5500 +rand.nextInt(2000);
+		matureSize = 8;
 		bitSize = 1;
-		hungryPeriod = 80;
+		hungryPeriod = 10;
 		size = ((int)(maxW/2));
-		scanRange = 900;
+		scanRange = 1500;
 	}
 
 	public void run() {
@@ -118,7 +119,7 @@ public class Rabbit extends Animal{
 			if (life==this||life.size<life.edibleSize) {
 				continue;
 			}
-			if (!Arrays.asList(edibleList).contains(life.type) ||!isInScanRange(life)) {
+			if (!Arrays.asList(edibleList).contains(life.lifeType) ||!isInScanRange(life)) {
 				
 				continue;
 				
@@ -170,7 +171,7 @@ public class Rabbit extends Animal{
 		if (health<bornHealthMin) {
 			return;
 		}
-		Life life = new Rabbit(this.foodChain, this.x+1, this.y+1, maxW/2, maxH/2, icon);
+		Life life = new Rabbit(this.foodChain, this.x+1, this.y+1, maxW/2, maxH/2, icon, bornPeriod);
 		if (foodChain.nullList.size()>0) {
 			try {
 				foodChain.lifeList.set(Integer.parseInt(foodChain.nullList.get(0)), life);

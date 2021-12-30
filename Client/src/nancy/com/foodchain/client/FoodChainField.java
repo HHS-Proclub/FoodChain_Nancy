@@ -2,7 +2,6 @@ package nancy.com.foodchain.client;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -15,7 +14,7 @@ import java.util.Map;
 
 
 import javax.swing.*;
-import com.google.gson.Gson;
+
 
 
 
@@ -25,56 +24,71 @@ public class FoodChainField extends JFrame  implements MouseListener{
 	Canvas panel;
 	JLabel tips;
 	Client client;
+	public ControlPanel controlDlg;
+	public DashBoard dashBoardDlg;
     // constructor
 	FoodChainField(Client client)
     {
         super("canvas");
         this.client = client;
+        
         JPanel controlPanel = new JPanel();
         controlPanel.setBounds(0, 0, 400, 30);
         controlPanel.setLayout(new FlowLayout());
         addMouseListener(this);
+        
+        JPanel dashPanel = new JPanel();
+        dashPanel.setBounds(300, 0, 400, 30);
+        addMouseListener(this);
+        
         this.tips = new JLabel("Tips");
         tips.setLocation(0, 0);
         tips.setSize(new Dimension(540,20));
         
-        JButton okButton = new JButton("Control Panel");
+        JButton controlButton = new JButton("Control Panel");
         JFrame self = this;
-        okButton.addActionListener(new ActionListener() {
+        controlButton.addActionListener(new ActionListener() {
            public void actionPerformed(ActionEvent e) {
-        	   ControlPanel dlg = new ControlPanel(self, client);
-        	   dlg.setVisible(true);
+        	   controlDlg = new ControlPanel(self, client);
+        	   controlDlg.setVisible(true);
            }
         });
-        controlPanel.add(okButton);
+        controlPanel.add(controlButton);
         controlPanel.add(tips);
         add(controlPanel);
+        
+        JButton dashButton = new JButton("DashBoard");
+        dashButton.addActionListener(new ActionListener() {
+           public void actionPerformed(ActionEvent e) {
+        	   dashBoardDlg = new DashBoard(self, client);
+        	   dashBoardDlg.setVisible(true);
+           }
+        });
+        dashPanel.add(dashButton);
+        add(dashPanel);
         
         this.canvas = new Canvas(true);
         add(canvas);
         this.pack();
         this.setVisible(true);
-        setSize(1000, 1000);
+        setSize(1700, 1000);
     }
  
-	public List <Life> lifeList = new ArrayList <Life>();
-	public Map <String, Life> lifeMap = new HashMap<String, Life>();
+	public List <ClientLife> lifeList = new ArrayList <ClientLife>();
+	public Map <String, ClientLife> lifeMap = new HashMap<String, ClientLife>();
 
-    public void update(String jsonString) {
+    public void update(List<ClientLife> lifeList) {
     	
-    	Gson gson = new Gson();
-        List<Life> lifeList = Arrays.asList(gson.fromJson(jsonString, Life[].class));
-        
     	//for (int i=0; i<lifeList.size();i++) {
 		//	Life life = lifeList.get(i);
 		//	System.err.println("name=" + life.name+" x="+life.x + ", y=" + life.y);
 		//}
     	//Map to hold new lifes
-    	Map <String, Life> newLifeMap = new HashMap<String, Life>();
+    	Map <String, ClientLife> newLifeMap = new HashMap<String, ClientLife>();
     	
     	//Loop through new life list to add new life or update existing life
     	for (int i=0; i<lifeList.size();i++) {
-			Life life = lifeList.get(i);
+			ClientLife life = lifeList.get(i);
 			if (life==null) {
 	    		continue;
 	    	}			
@@ -82,8 +96,8 @@ public class FoodChainField extends JFrame  implements MouseListener{
 		}
     	
     	//Loop through existing life map to remove no longer exist life
-    	for (Map.Entry<String,Life> entry : lifeMap.entrySet()) {
-    		Life life = entry.getValue();
+    	for (Map.Entry<String,ClientLife> entry : lifeMap.entrySet()) {
+    		ClientLife life = entry.getValue();
     	}
     	
     	//Update life list and map
@@ -106,8 +120,8 @@ public class FoodChainField extends JFrame  implements MouseListener{
 
 
 		public void paintComponent(Graphics g) {
-			for (Map.Entry<String,Life> entry : lifeMap.entrySet()) {
-        		Life life = entry.getValue();
+			for (Map.Entry<String,ClientLife> entry : lifeMap.entrySet()) {
+        		ClientLife life = entry.getValue();
         		
         		ImageIcon icon = new ImageIcon(life.icon);        		
                 Image newImg = icon.getImage().getScaledInstance(life.width, life.height, Image.SCALE_SMOOTH);
@@ -125,13 +139,13 @@ public class FoodChainField extends JFrame  implements MouseListener{
 	public void mouseClicked(MouseEvent e) {
 		Point p = e.getPoint();
 		for (int i=0; i<lifeList.size();i++) {
-			Life life = lifeList.get(i);
+			ClientLife life = lifeList.get(i);
 			if (life==null) {
 	    		continue;
 	    	}			
 			int lx = life.x+life.width/2;
 			int ly = life.y+life.height/2;
-			System.err.println("lx="+lx+" ly="+ly+" x="+p.x+" y="+p.y);
+			//System.err.println("lx="+lx+" ly="+ly+" x="+p.x+" y="+p.y);
 			if (Math.abs(p.x-lx)<50 && Math.abs(p.y-ly)<50) {
 				tips.setText("Name:"+life.name+" State:"+life.state);
 				this.repaint();

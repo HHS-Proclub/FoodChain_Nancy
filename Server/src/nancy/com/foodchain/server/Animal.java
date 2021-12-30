@@ -86,17 +86,18 @@ public abstract class Animal extends Life {
 		boolean found = false;
 		for (int i=4; i>-1;i--) {
 			if (health<healthLevel[4]) {
-				icon = (type+4+".png").toLowerCase();
+				icon = (lifeType+4+".png").toLowerCase();
 				found = true;
 			}
 		}
 		if (!found) {
-			icon = (type+".png").toLowerCase();
+			icon = (lifeType+".png").toLowerCase();
 		}
 		
 	}
 
 	public void walk() {
+
 		if (approacher!=null && approacher.state==State.EATING) {
 			return;
 		}
@@ -119,15 +120,15 @@ public abstract class Animal extends Life {
 		x+=direction[0];
 		y+=direction[1];
 		
-		if (x<0||x>foodChain.field.width) {
+		if (x<10||x>foodChain.field.width-10) {
 			direction[0] *= -1;
 			x+=direction[0];
 			directionPeriod = 5+rand.nextInt(20);
 		}
-		if (y<0||y>foodChain.field.height) {
+		if (y<10||y>foodChain.field.height-10) {
 			direction[1] *= -1;
 			y+=direction[1];
-			directionPeriod = 5+rand.nextInt(20);
+			directionPeriod = 55+rand.nextInt(20);
 		}
 		
 		//System.err.println(name+":"+x+", "+y);

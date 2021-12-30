@@ -1,18 +1,16 @@
 package nancy.com.foodchain.client;
 
-import java.awt.BorderLayout;
-import java.awt.Dialog;
-import java.awt.FlowLayout;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.Socket;
+import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -25,8 +23,6 @@ import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import nancy.com.foodchain.server.KeyValue;
-import nancy.com.foodchain.server.Life;
 
 public class ControlPanel extends JDialog implements ActionListener  {
 	   private String[] data;
@@ -35,19 +31,28 @@ public class ControlPanel extends JDialog implements ActionListener  {
 	   private JButton btnOk;
 	   private JButton btnCancel;
 	   private Client client;
+	   private long lastSliderTime;
+	   public boolean isSetValue = false;
+	   private int sliderValue;
+	   public Map <String, JSlider> sliderMap;
 	   public ControlPanel(JFrame parent, Client client) {
 	      super(parent,"Control Panel",true);
 	      this.client = client;
+	      
+	     
+	      sliderMap = new HashMap<String, JSlider>();
 	      Point loc = parent.getLocation();
 	      setLocation(loc.x+80,loc.y+80);
 	      data = new String[2]; // set to amount of data items
 	      JPanel panel = new JPanel();
+	      
 	      panel.setLayout(new GridBagLayout());
 	      GridBagConstraints gbc = new GridBagConstraints();
 	      gbc.insets = new Insets(2,2,2,2);
 	      
-	      panel.add(addSlider("Weather Condition", "weatherCondition", 1, 10, client.weatherCondition));	
-	      panel.add(addSlider("Birth Period: Wolf", "bornPeriod", 1, Life.BORN_PERIOD, client.wolfBornPeriod));	
+	      panel.add(addSlider("Weather Condition", "weatherCondition", 1, 10, client.weatherCondition, 1, 1));	
+	      panel.add(addSlider("Birth Period: Wolf", "wolfBornPeriod", 1, nancy.com.foodchain.server.Life.BORN_PERIOD*2, client.wolfBornPeriod, 100, 5));	
+	      panel.add(addSlider("Birth Period: Rabbit", "rabbitBornPeriod", 1, nancy.com.foodchain.server.Life.BORN_PERIOD*2, client.rabbitBornPeriod, 100, 5));	
 	      
 	      btnOk = new JButton("Ok");
 	      btnOk.addActionListener(this);
@@ -64,14 +69,7 @@ public class ControlPanel extends JDialog implements ActionListener  {
 	      pack();
 	   }
 	   public void actionPerformed(ActionEvent ae) {
-	      /*Object source = ae.getSource();
-	      if (source == btnOk) {
-	         data[0] = descBox.getText();
-	         data[1] = (String)colorList.getSelectedItem();
-	      }
-	      else {
-	         data[0] = null;
-	      }*/
+	      sliderMap = null;
 	      dispose();
 	   }
 	   public String[] run() {
@@ -79,20 +77,36 @@ public class ControlPanel extends JDialog implements ActionListener  {
 	      return data;
 	   }
 	   
-	   private JPanel addSlider( String label, String key, int FPS_MIN, int FPS_MAX, int FPS_INIT) {
+	   private JPanel addSlider( String label, String key, int FPS_MIN, int FPS_MAX, int FPS_INIT, int mainTicksSpace, int minTicksSpace) {
 		  JPanel panel = new JPanel();
 		  panel.add(new JLabel(label));
+		 // System.err.println("HORIZONTAL="+JSlider.HORIZONTAL+" FPS_MIN="+
+          //        FPS_MIN+" FPS_MAX="+FPS_MAX+" FPS INIT="+ FPS_INIT);
 	   	  JSlider slider = new JSlider(JSlider.HORIZONTAL,
                   FPS_MIN, FPS_MAX, FPS_INIT);
+	   	  sliderMap.put(key, slider);
+	   	  slider.setMajorTickSpacing(mainTicksSpace);
+	   	  slider.setMinorTickSpacing(minTicksSpace);
+	   	  slider.setPaintTicks(true);
+	   	  slider.setPaintLabels(true);
 	   	  slider.addChangeListener(new ChangeListener() {
 	        public void stateChanged(ChangeEvent e) {
-		        System.out.println("Slider1: " + slider.getValue());
+	        	Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+	        	long curTime = timestamp.getTime();
+	        	
+	        	System.err.println("dt="+(curTime - lastSliderTime));
+				if (curTime - lastSliderTime<2000 || isSetValue) {
+					lastSliderTime = curTime;
+	        		isSetValue = false;
+
+	        		return;
+	        	}
+	        	System.out.println("Slider_"+key+": " + slider.getValue());
 		        try {
-			            PrintWriter out = new PrintWriter(client.socket.getOutputStream(), true);	
-			            BufferedReader in = new BufferedReader(new InputStreamReader(client.socket.getInputStream()));
-				        out.println("["+new KeyValue(key,""+slider.getValue()).toJson()+"]");				
-				        String respond = in.readLine();
-				        client.processServerResponse(respond);
+		        	    PrintWriter out = new PrintWriter(client.socket.getOutputStream(), true);
+		        	    String msg = "["+new ClientLife("c", key,""+slider.getValue()).toJson()+"]";
+			            out.println(msg);				
+				        System.err.println("Send control msg:"+msg);			
 		        } catch (Exception ee) {
 		            System.out.println("Initializing error. Make sure that server is alive!\n" + ee);
 		        }

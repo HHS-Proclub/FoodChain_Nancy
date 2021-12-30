@@ -22,17 +22,16 @@ public abstract class Life implements  Runnable{
 	public int x;
 	public int y;
 	public int age = 0;
-	public static int BORN_PERIOD = 300;
+	public static int BORN_PERIOD = 200;
 	public int width = 20;
 	public int height = 20;
-	public String type;
+	public String lifeType;
 	public String icon;
 	public int growCount;	
 	public int growPeriodOrigin = 10;
 	public int growPeriod = growPeriodOrigin;
 	public int bornPeriodOrigin = BORN_PERIOD;
 	public int bornPeriod = bornPeriodOrigin;
-	
 	public int bornCount = bornPeriod;
 	public int matureSize = 18;
 	public int maxW = 20;
@@ -48,18 +47,23 @@ public abstract class Life implements  Runnable{
 	public int maxAge = 500;
 	public int minSize = 0;
 	public int edibleSize = 10;
+	public String key;
+	public String value;
+	public String type;
 	public Life(FoodChain foodchain, int x, int y, int width, int height, String icon) {
-		this.type = getType(this);
+		this.lifeType = getType(this);
 		this.foodChain = foodchain;
-		this.name = type+(++idCount);
+		this.name = lifeType+(++idCount);
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
 		this.icon = icon;
-		
-		
+		this.type = "u";
+		this.key = "";
+		this.value = "";
 	}
+	
 	public void run() {
 		live();
 		
@@ -96,10 +100,17 @@ public abstract class Life implements  Runnable{
 	}
 	public void handleBorn() {
 		if (--bornCount<1 && width>=matureSize && foodChain.threadCount<foodChain.maxThread) {
+			if (this instanceof Rabbit) {
+				int x = 0;
+			}
 			born();
 			Random rand = new Random();	
 			bornPeriod = ((this instanceof Animal)?bornPeriod:(bornPeriodOrigin/foodChain.weatherCondition));
 			bornCount = 50+rand.nextInt(bornPeriod);
+			if (bornCount >200) {
+				int c = 1;
+				
+			}
 		}
 	}
 	public void dead() {
@@ -143,6 +154,7 @@ public abstract class Life implements  Runnable{
 	public String toJson( ) {
 		//StringBuilder sb = new StringBuilder();
 		return "{"+
+				"\"type\":\"u\","+
 				"\"name\":\""+name+"\","+
 				"\"x\":"+x+","+
 				"\"y\":"+y+","+
@@ -153,7 +165,9 @@ public abstract class Life implements  Runnable{
 				"\"width\":"+width+","+
 				"\"height\":"+height+","+
 				"\"icon\":\""+icon+"\","+
-				"\"state\":\""+state.toString()+"\""+
+				"\"state\":\""+state.toString()+"\","+
+				"\"key\":\"\","+
+				"\"value\":\"\""+
 				"}";
 	}
 
