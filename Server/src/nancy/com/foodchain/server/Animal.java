@@ -20,10 +20,7 @@ public abstract class Animal extends Life {
 	public int biteSize = 1;
 	Life target;
 	public int approachSpeed = 8;
-	public int health = 100;
-	public int healthPeriod = 5;
 	public int bornHealthMin = 50;
-	public int healthCount = healthPeriod;
 	public int []healthLevel = new int[] {80, 60, 40, 20, 5}; 
 	public int[] direction = new int[]{1,1};
 	public int directionPeriod = 5;
@@ -71,7 +68,9 @@ public abstract class Animal extends Life {
 		handleHealth();
 	}
 	
-
+	public void handleGrow() {		
+		
+	}
 	private void handleHealth() {
 		if (health<1) {
 			state = State.DEAD;
@@ -120,12 +119,12 @@ public abstract class Animal extends Life {
 		x+=direction[0];
 		y+=direction[1];
 		
-		if (x<10||x>foodChain.field.width-10) {
+		if (x<50||x>foodChain.field.width-100) {
 			direction[0] *= -1;
 			x+=direction[0];
 			directionPeriod = 5+rand.nextInt(20);
 		}
-		if (y<10||y>foodChain.field.height-10) {
+		if (y<50||y>foodChain.field.height-100) {
 			direction[1] *= -1;
 			y+=direction[1];
 			directionPeriod = 55+rand.nextInt(20);

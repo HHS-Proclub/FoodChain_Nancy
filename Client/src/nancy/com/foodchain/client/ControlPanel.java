@@ -36,7 +36,7 @@ public class ControlPanel extends JDialog implements ActionListener  {
 	   private int sliderValue;
 	   public Map <String, JSlider> sliderMap;
 	   public ControlPanel(JFrame parent, Client client) {
-	      super(parent,"Control Panel",true);
+	      super(parent,"Control Panel",false);
 	      this.client = client;
 	      
 	     
@@ -94,7 +94,7 @@ public class ControlPanel extends JDialog implements ActionListener  {
 	        	Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 	        	long curTime = timestamp.getTime();
 	        	
-	        	System.err.println("dt="+(curTime - lastSliderTime));
+	        	//System.err.println("dt="+(curTime - lastSliderTime));
 				if (curTime - lastSliderTime<2000 || isSetValue) {
 					lastSliderTime = curTime;
 	        		isSetValue = false;
@@ -106,7 +106,7 @@ public class ControlPanel extends JDialog implements ActionListener  {
 		        	    PrintWriter out = new PrintWriter(client.socket.getOutputStream(), true);
 		        	    String msg = "["+new ClientLife("c", key,""+slider.getValue()).toJson()+"]";
 			            out.println(msg);				
-				        System.err.println("Send control msg:"+msg);			
+				        //System.err.println("Send control msg:"+msg);			
 		        } catch (Exception ee) {
 		            System.out.println("Initializing error. Make sure that server is alive!\n" + ee);
 		        }

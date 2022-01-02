@@ -20,38 +20,40 @@ public class FoodChain implements  Serializable{
 	public Map <String, String>total = new HashMap();
 	public List<String>nullList = new ArrayList();
 	public int weatherConditionMax = 10;
-	public int weatherCondition = 1;
+	public int weatherCondition = 5;
 	public int wolfBornPeriod = Life.BORN_PERIOD;
 	public int rabbitBornPeriod = Life.BORN_PERIOD;
 	public boolean test = false;
 	private int countWolf;
 	private int countRabbit;
 	private int countDandelion;
+	long startTime;
+	private long elapsedTime;
 	public static void main(String[] args) {
 		new FoodChain().doIt();
 
 	}
-
 	void doIt() {
+		startTime = System.currentTimeMillis();
 		Random rand = new Random(99);	
-		int maxW = field.width-100;
-		int maxH = field.height-100;
+		int maxW = field.width-200;
+		int maxH = field.height-200;
 		total.put("Wolf", "0");
 		total.put("Rabbit", "0");
 		total.put("Dandelion", "0");
 		total.put("Null", "0");
 		total.put("Total", "0");
 		
-		for (int i=0; i<10; i++) {
-			Life life = new Wolf(this, (30+(rand.nextInt(3)>1?-1:1)*rand.nextInt(maxW)), (100+(rand.nextInt(3)>1?-1:1)*rand.nextInt(maxH)), 2*maxW/3, 2*maxH/3, "wolf.png", -1);
+		for (int i=0; i<5; i++) {
+			Life life = new Wolf(this, (50+rand.nextInt(maxW)), (50+rand.nextInt(maxH)), 20, 20, "wolf.png", -1);
 			lifeList.add(life);		
 			life.thread = new Thread(life);
 			life.thread.start();
 			threadCount++;
 		}
 		
-		for (int i=0; i<40; i++) {
-			Life life = new Rabbit(this, (20+(rand.nextInt(3)>1?-1:1)*rand.nextInt(maxW)), (100+(rand.nextInt(3)>1?-1:1)*rand.nextInt(maxH)), 2*maxW/3, 2*maxH/3, "rabbit.png", -1);
+		for (int i=0; i<10; i++) {
+			Life life = new Rabbit(this, (50+rand.nextInt(maxW)), (50+rand.nextInt(maxH)), 15, 15, "rabbit.png", -1);
 			lifeList.add(life);		
 			life.thread = new Thread(life);
 			life.thread.start();
@@ -59,7 +61,7 @@ public class FoodChain implements  Serializable{
 		}
 		
 		for (int i=0; i<20; i++) {
-			Life life = new Dandelion(this, (10+(rand.nextInt(3)>1?-1:1)*rand.nextInt(maxW)), (100+(rand.nextInt(3)>1?-1:1)*rand.nextInt(maxH)), 2*maxW/3, 2*maxH/3, "dandelion.png");
+			Life life = new Dandelion(this, (50+rand.nextInt(maxW)), (50+rand.nextInt(maxH)), 27, 27, "dandelion.png");
 			lifeList.add(life);		
 			life.thread = new Thread(life);
 			life.thread.start();
@@ -68,7 +70,7 @@ public class FoodChain implements  Serializable{
 
 
 	}
-	
+
 	public List getLifeList() {
 		//printList();
 		return lifeList;
@@ -141,6 +143,10 @@ public class FoodChain implements  Serializable{
 			countDandelion = Integer.parseInt(field.value);
 			//System.err.println("weatherCondition="+weatherCondition);
 			
+		} else if (field.key.equals("elapsedTime")) {
+			elapsedTime = Long.parseLong(field.value);
+			//System.err.println("weatherCondition="+weatherCondition);
+			
 		} 
 	}
 
@@ -170,6 +176,8 @@ public class FoodChain implements  Serializable{
 			return  ""+ countRabbit;
 		} else if (key.equals("countDandelion")) {			
 			return  ""+ countDandelion;
+		} else if (key.equals("elapsedTime")) {
+			return  ""+ elapsedTime;
 		}
 		return null;
 	}
@@ -187,6 +195,7 @@ public class FoodChain implements  Serializable{
 			counts.put("count"+life.lifeType, ""+n);
 			
 		}
+		counts.put("elapsedTime", ""+(System.currentTimeMillis() - startTime));
 		for (String key : counts.keySet()) {
 			setField(new ClientLife("d", key, counts.get(key)));
 		}

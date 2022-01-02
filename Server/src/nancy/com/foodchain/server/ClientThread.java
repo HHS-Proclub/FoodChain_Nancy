@@ -26,7 +26,7 @@ public class ClientThread implements Runnable {
 	        while (true) {
 	        	
 	        	String msg = in.readLine();
-	        	System.err.println("Server receive msg from Client in ClientThread:"+msg);
+	        	//System.err.println("Server receive msg from Client in ClientThread:"+msg);
 	        	ClientMessage clientMessage = new ClientMessage(server.foodChain, msg);
 	        	if (clientMessage.fields.get(0).type.equals("c")) {
 	        		clientMessage.apply();

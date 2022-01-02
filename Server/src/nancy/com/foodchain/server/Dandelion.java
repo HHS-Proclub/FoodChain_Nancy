@@ -8,17 +8,20 @@ public class Dandelion extends Plant{
 
 	public Dandelion(FoodChain foodchain, int x, int y, int width, int height, String icon) {
 		super(foodchain, x, y, width, height, icon);
+
 		growSpeed = 2;
 		size = 10;
 		this.bornPeriod = 250;
 		Random rand = new Random();	
-		this.bornCount = 20+rand.nextInt(bornPeriod);
+		this.bornCount = 20+rand.nextInt(Math.max(bornPeriod, 2));
 		maxW = 40;
 		maxH = 40;
-		maxAge = 9999999;
+		maxAge = 600 +rand.nextInt(200);
 		matureSize = 35;
 		minSize = 5;
 		size = ((int)(maxW/2));
+		growPeriodOrigin = 20;
+		bornRate = foodchain.weatherCondition*100/10;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -32,8 +35,19 @@ public class Dandelion extends Plant{
 		if (size<matureSize) {
 			return;
 		}
+		int x, y;
+		int maxW = foodChain.field.width-200;
+		int maxH = foodChain.field.height-200;
+		
 		Random rand = new Random();	
-		Life life = new Dandelion(this.foodChain, this.x+(rand.nextInt(3)>1?-1:1)*(20+rand.nextInt(100)), this.y+(rand.nextInt(3)>1?-1:1)*(20+rand.nextInt(100)), maxW/5, maxH/5, icon);
+		if (rand.nextInt(100)>50) {
+			x = this.x+(1-rand.nextInt(2))*(7+rand.nextInt(3));
+			y = this.y+(1-rand.nextInt(2))*(7+rand.nextInt(3));
+		} else {
+			x = (50+rand.nextInt(maxW));
+			y = (50+rand.nextInt(maxH));
+		}
+		Life life = new Dandelion(this.foodChain, x, y, this.maxW/5, this.maxH/5, icon);
 		if (foodChain.nullList.size()>0) {
 			try {
 				foodChain.lifeList.set(Integer.parseInt(foodChain.nullList.get(0)), life);

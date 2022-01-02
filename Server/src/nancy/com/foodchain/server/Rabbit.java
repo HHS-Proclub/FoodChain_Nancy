@@ -15,17 +15,20 @@ public class Rabbit extends Animal{
 		super(foodchain, x, y, width, height, icon);
 		this.edibleList = new String[]{"Dandelion"};
 		Random rand = new Random();	
-		this.bornPeriod = _bornPeriod>0?(10+rand.nextInt(_bornPeriod/2)):(20+rand.nextInt(bornPeriod));
+		this.bornPeriod = _bornPeriod>0?(10+rand.nextInt(Math.max(_bornPeriod/2, 2))):(20+rand.nextInt(Math.max(bornPeriod, 2)));
 		
 		this.bornCount = bornPeriod;
 		maxW = 20;
 		maxH = 20;
 		maxAge = 5500 +rand.nextInt(2000);
-		matureSize = 8;
+		matureSize = 15;
 		bitSize = 1;
 		hungryPeriod = 10;
 		size = ((int)(maxW/2));
 		scanRange = 1500;
+		healthPeriod = 4 +(1-rand.nextInt(2));
+		bornRate = 30;
+		
 	}
 
 	public void run() {
@@ -55,6 +58,12 @@ public class Rabbit extends Animal{
 		if (foodChain.test) {
 			System.err.println(this.name + " is eating "+target.name);
 		}
+		
+		
+		//Grow only when eating
+		size = Math.min(size+ 1, maxW);
+		width = height = size;
+		
 		return true;
 	}
 	

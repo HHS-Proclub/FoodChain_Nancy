@@ -33,7 +33,8 @@ public abstract class Life implements  Runnable{
 	public int bornPeriodOrigin = BORN_PERIOD;
 	public int bornPeriod = bornPeriodOrigin;
 	public int bornCount = bornPeriod;
-	public int matureSize = 18;
+	public int bornRate = 100;
+	public int matureSize =25;
 	public int maxW = 20;
 	public int maxH = 20;
 	public int size = 1;
@@ -50,6 +51,10 @@ public abstract class Life implements  Runnable{
 	public String key;
 	public String value;
 	public String type;
+	public int health = 100;
+	public int healthPeriod = 5;
+	public int healthCount = healthPeriod;
+	
 	public Life(FoodChain foodchain, int x, int y, int width, int height, String icon) {
 		this.lifeType = getType(this);
 		this.foodChain = foodchain;
@@ -71,6 +76,7 @@ public abstract class Life implements  Runnable{
 		
 	}
 	
+	//Tick loop: one iteration is a tick
 	public void live() {		
 		while (state!=State.DEAD) {			
 			try{Thread.sleep(100);}catch(InterruptedException e){System.out.println(e);}
@@ -87,26 +93,25 @@ public abstract class Life implements  Runnable{
 			state = State.DEAD;
 			return;
 		};
-		if (--growCount<1) {
-			Random rand = new Random();	
-			growPeriod = ((this instanceof Animal)?growPeriod:(growPeriodOrigin/foodChain.weatherCondition));
-			growCount = 3+rand.nextInt(growPeriod);
-			size = Math.min(size+ 1, maxW);
-		}
-		
-		width = height =size;
 		
 		
+		handleGrow();
 	}
+	public abstract void handleGrow();
+
 	public void handleBorn() {
 		if (--bornCount<1 && width>=matureSize && foodChain.threadCount<foodChain.maxThread) {
 			if (this instanceof Rabbit) {
 				int x = 0;
 			}
-			born();
 			Random rand = new Random();	
-			bornPeriod = ((this instanceof Animal)?bornPeriod:(bornPeriodOrigin/foodChain.weatherCondition));
-			bornCount = 50+rand.nextInt(bornPeriod);
+			if (rand.nextInt(100)<bornRate) {
+				born();
+			}
+			
+			
+			bornPeriod = ((this instanceof Animal)?bornPeriod:(bornPeriodOrigin*5/foodChain.weatherCondition));
+			bornCount = 50+rand.nextInt(Math.max(bornPeriod, 2));
 			if (bornCount >200) {
 				int c = 1;
 				
@@ -161,6 +166,7 @@ public abstract class Life implements  Runnable{
 				"\"width\":"+width+","+
 				"\"height\":"+height+","+
 				"\"age\":"+age+","+
+				"\"health\":"+health+","+
 				"\"volume\":"+size+","+
 				"\"width\":"+width+","+
 				"\"height\":"+height+","+

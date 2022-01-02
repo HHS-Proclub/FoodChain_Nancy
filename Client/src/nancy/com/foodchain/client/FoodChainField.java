@@ -33,13 +33,10 @@ public class FoodChainField extends JFrame  implements MouseListener{
         this.client = client;
         
         JPanel controlPanel = new JPanel();
-        controlPanel.setBounds(0, 0, 400, 30);
-        controlPanel.setLayout(new FlowLayout());
+        controlPanel.setBounds(0, 0, 600, 40);
+        controlPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         addMouseListener(this);
         
-        JPanel dashPanel = new JPanel();
-        dashPanel.setBounds(300, 0, 400, 30);
-        addMouseListener(this);
         
         this.tips = new JLabel("Tips");
         tips.setLocation(0, 0);
@@ -50,22 +47,25 @@ public class FoodChainField extends JFrame  implements MouseListener{
         controlButton.addActionListener(new ActionListener() {
            public void actionPerformed(ActionEvent e) {
         	   controlDlg = new ControlPanel(self, client);
+        	   controlDlg.setLocation(630,5);
         	   controlDlg.setVisible(true);
            }
         });
-        controlPanel.add(controlButton);
-        controlPanel.add(tips);
-        add(controlPanel);
+      
         
         JButton dashButton = new JButton("DashBoard");
         dashButton.addActionListener(new ActionListener() {
            public void actionPerformed(ActionEvent e) {
         	   dashBoardDlg = new DashBoard(self, client);
+        	   dashBoardDlg.setLocation(1200,130);
         	   dashBoardDlg.setVisible(true);
            }
         });
-        dashPanel.add(dashButton);
-        add(dashPanel);
+        controlPanel.add(controlButton);
+        controlPanel.add(dashButton);
+        controlPanel.add(tips);
+        
+        add(controlPanel);
         
         this.canvas = new Canvas(true);
         add(canvas);
@@ -89,7 +89,7 @@ public class FoodChainField extends JFrame  implements MouseListener{
     	//Loop through new life list to add new life or update existing life
     	for (int i=0; i<lifeList.size();i++) {
 			ClientLife life = lifeList.get(i);
-			if (life==null) {
+			if (life==null || life.icon==null) {
 	    		continue;
 	    	}			
 			newLifeMap.put(life.name, life);
@@ -147,7 +147,7 @@ public class FoodChainField extends JFrame  implements MouseListener{
 			int ly = life.y+life.height/2;
 			//System.err.println("lx="+lx+" ly="+ly+" x="+p.x+" y="+p.y);
 			if (Math.abs(p.x-lx)<50 && Math.abs(p.y-ly)<50) {
-				tips.setText("Name:"+life.name+" State:"+life.state);
+				tips.setText("Name: "+life.name+" State: "+life.state+" Age: "+life.age+" Health: "+life.health);
 				this.repaint();
 				break;
 			}

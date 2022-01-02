@@ -10,6 +10,7 @@ public class ClientLife {
 		this.x = -1;
 		this.y = -1;
 		this.age = -1;
+		this.health = -1;
 		this.volume = -1;
 		this.width = -1;
 		this.height = -1;
@@ -24,6 +25,7 @@ public class ClientLife {
 	public int x;
 	public int y;
 	public int age = 0;
+	public int health = 100;
 	public int volume = 1;
 	public int width = 20;
 	public int height = 20;
@@ -42,6 +44,7 @@ public class ClientLife {
 				"\"width\":"+width+","+
 				"\"height\":"+height+","+
 				"\"age\":"+age+","+
+				"\"health\":"+health+","+
 				"\"volume\":"+volume+","+
 				"\"width\":"+width+","+
 				"\"height\":"+height+","+

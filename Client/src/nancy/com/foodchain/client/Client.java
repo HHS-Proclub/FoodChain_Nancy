@@ -7,11 +7,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 
+import java.util.concurrent.TimeUnit;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
+
 
 
  
@@ -26,6 +29,7 @@ public class Client {
 	public int countWolf;
 	public int countRabbit;
 	public int countDandelion;
+	public long elapsedTime;
     public Client(String name) {
 		// TODO Auto-generated constructor stub
     	this.name = name;
@@ -112,12 +116,13 @@ public class Client {
 			            
 			            if (type.equals("u")) {
 			            	field.update(lifeList);
+			            	//System.err.println("Client receive msg from server updateThread:"+jsonString);
 			            } else if (type.equals("c")) {
 			            	processServerResponseForControlPanel(lifeList);
-			            	System.err.println("Client receive msg from server ClientThread:"+jsonString);
+			            	//System.err.println("Client receive msg from server ClientThread:"+jsonString);
 				    		
 			            } else if (type.equals("d")) {
-			            	System.err.println("Client receive msg from server ClientThread:"+jsonString);
+			            	//System.err.println("Client receive msg from server ClientThread:"+jsonString);
 				    		
 			            	processServerResponseForDashboard(lifeList);
 			            } 
@@ -144,36 +149,47 @@ public class Client {
 		
 	}
 	private void setFieldForDashboard(ClientLife clientField) {
-		System.err.println("clientField.key==="+clientField.key.equals("totalPopulation"));
+		//System.err.println("clientField.key==="+clientField.key.equals("totalPopulation"));
 		if (clientField.value==null && !(clientField.key.equals("totalPopulation"))) {
 			return;
 		}
 			
 		if (clientField.key.equals("countWolf")) {
 			countWolf = Integer.parseInt(clientField.value);
-			System.err.println("countWolf="+countWolf);
+			//System.err.println("countWolf="+countWolf);
 		}
 		
 		if (clientField.key.equals("countRabbit")) {
 			countRabbit = Integer.parseInt(clientField.value);
-			System.err.println("countRabbit="+countRabbit);
+			//System.err.println("countRabbit="+countRabbit);
 		}
 		
 		if (clientField.key.equals("countDandelion")) {
 			countDandelion = Integer.parseInt(clientField.value);
-			System.err.println("countDandelion="+countDandelion);
+			//System.err.println("countDandelion="+countDandelion);
 		}
+		
+		if (clientField.key.equals("elapsedTime")) {
+			//System.err.println("elapsedTime="+elapsedTime);
+			elapsedTime = Long.parseLong(clientField.value);
+		}
+		
 		if (clientField.key.equals("totalPopulation")) {
 			totalPopulation = countWolf+countRabbit+countDandelion;
-			System.err.println("totalPopulation="+totalPopulation);
+			//System.err.println("totalPopulation="+totalPopulation);
 			clientField.value =  ""+totalPopulation;
 		}
 		
 		if (field.dashBoardDlg!=null && field.dashBoardDlg.fieldMap!=null) {
 			JLabel label = field.dashBoardDlg.fieldMap.get(clientField.key);
-			System.err.println("clientField.KEY: "+ clientField.key);
-			System.err.println("clientField.value: "+ clientField.value);
-			label.setText(""+Integer.parseInt(clientField.value));
+			//System.err.println("clientField.KEY: "+ clientField.key);
+			//System.err.println("clientField.value: "+ clientField.value);
+			if (clientField.key.equals("elapsedTime")) {
+				label.setText(getDuration());
+			} else {
+				label.setText(""+clientField.value);
+			}
+			
 		}
 		
 	}
@@ -193,16 +209,16 @@ public class Client {
 			
 		if (clientField.key.equals("weatherCondition")) {
 			weatherCondition = Integer.parseInt(clientField.value);
-			System.err.println("weatherCondition="+weatherCondition);
+			//System.err.println("weatherCondition="+weatherCondition);
 		} else if (clientField.key.equals("wolfBornPeriod")) {
 			wolfBornPeriod = Integer.parseInt(clientField.value);
-			System.err.println("wolfBornPeriod="+wolfBornPeriod);
+			//System.err.println("wolfBornPeriod="+wolfBornPeriod);
 		} else if (clientField.key.equals("rabbitBornPeriod")) {
 			rabbitBornPeriod = Integer.parseInt(clientField.value);
-			System.err.println("rabbitBornPeriod="+rabbitBornPeriod);
+			//System.err.println("rabbitBornPeriod="+rabbitBornPeriod);
 		} else if (clientField.key.equals("name")) {
 			name = clientField.value;
-			System.err.println("name="+name);
+			//System.err.println("name="+name);
 		}
 		if (field.controlDlg!=null && field.controlDlg.sliderMap!=null) {
 			JSlider slider = field.controlDlg.sliderMap.get(clientField.key);
@@ -212,6 +228,14 @@ public class Client {
 		}
 	}
     
-	
+	String getDuration() {
+		  Duration duration = Duration.ofMillis(this.elapsedTime);
+	      long HH = duration.toHours();
+	      long MM = duration.toMinutesPart();
+	      long SS = duration.toSecondsPart();
+	      String timeInHHMMSS = String.format("%02d:%02d:%02d", HH, MM, SS);
+	      //System.err.println("#############"+timeInHHMMSS);
+	      return timeInHHMMSS;
+	   }
  
 }

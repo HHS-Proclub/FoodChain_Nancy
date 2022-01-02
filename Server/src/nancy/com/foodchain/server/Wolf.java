@@ -14,16 +14,18 @@ public class Wolf extends Animal{
 		super(foodchain, x, y, width, height, icon);
 		this.edibleList = new String[]{"Rabbit"};
 		Random rand = new Random();	
-		this.bornPeriod = _bornPeriod>0?(20+rand.nextInt(_bornPeriod)):(Life.BORN_PERIOD/2+rand.nextInt(bornPeriod));
+		this.bornPeriod = _bornPeriod>0?(20+rand.nextInt(Math.max(_bornPeriod, 2))):(Life.BORN_PERIOD/2+rand.nextInt(Math.max(bornPeriod, 2)));
 		this.bornCount = this.bornPeriod;
 		maxW = 30;
 		maxH = 30;
 		maxAge = 6500 +rand.nextInt(3000);
-		matureSize = 15;
+		matureSize = 20;
 		bitSize = 5;
 		hungryPeriod = 150;
 		size = ((int)(maxW/2));
 		scanRange = 500;
+		healthPeriod = 4 +(1-rand.nextInt(2));
+		bornRate = 80;
 	}
 
 	public void run() {
@@ -57,6 +59,11 @@ public class Wolf extends Animal{
 		if (foodChain.test) {
 			System.err.println(this.name + " is eating "+target.name);
 		}
+		
+		//Grow only when eating
+		size = Math.min(size+ 1, maxW);		
+		width = height = size;
+				
 		return true;
 	}
 	

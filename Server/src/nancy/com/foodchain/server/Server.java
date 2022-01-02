@@ -74,9 +74,9 @@ public class Server {
 			    
 			    PrintWriter out = new PrintWriter(client.socket.getOutputStream(), true);
 			    out.println(resString);
-			    if (type=="c") {
-			    	System.err.println("Broadcasting to "+client.id+": "+resString);
-			    }
+			    //if (type=="c") {
+			    //	System.err.println("Broadcasting to "+client.id+": "+resString);
+			    //}
 			    
 			}
 		
@@ -128,6 +128,9 @@ public class Server {
 	            		d = Integer.parseInt(foodChain.total.get("Total"));
 	            		foodChain.total.put("Total", ""+(d+1));
 	            		
+	            	}
+	            	if (sb.isEmpty()) {
+	            		sb.append(new Wolf(foodChain, -1, -1, -1, -1, null, -1).toJson());
 	            	}
 	            	String lifeListString = "["+sb.toString()+"]";
 	            	server.broadcast(lifeListString, "u");
