@@ -25,7 +25,7 @@ public class Wolf extends Animal{
 		size = ((int)(maxW/2));
 		scanRange = 500;
 		healthPeriod = 4 +(1-rand.nextInt(2));
-		bornRate = 80;
+		bornRate = 30;
 	}
 
 	public void run() {

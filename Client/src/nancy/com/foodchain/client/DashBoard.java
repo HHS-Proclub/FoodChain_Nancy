@@ -289,7 +289,7 @@ public class DashBoard extends JDialog implements ActionListener, Runnable  {
 				}
 			
 			}
-			
+			System.err.println("Dashboard exit");
 		}
 
 	   

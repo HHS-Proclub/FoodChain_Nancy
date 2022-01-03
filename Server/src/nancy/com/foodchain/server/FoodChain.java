@@ -44,7 +44,7 @@ public class FoodChain implements  Serializable{
 		total.put("Null", "0");
 		total.put("Total", "0");
 		
-		for (int i=0; i<5; i++) {
+		for (int i=0; i<10; i++) {
 			Life life = new Wolf(this, (50+rand.nextInt(maxW)), (50+rand.nextInt(maxH)), 20, 20, "wolf.png", -1);
 			lifeList.add(life);		
 			life.thread = new Thread(life);
@@ -52,7 +52,7 @@ public class FoodChain implements  Serializable{
 			threadCount++;
 		}
 		
-		for (int i=0; i<10; i++) {
+		for (int i=0; i<40; i++) {
 			Life life = new Rabbit(this, (50+rand.nextInt(maxW)), (50+rand.nextInt(maxH)), 15, 15, "rabbit.png", -1);
 			lifeList.add(life);		
 			life.thread = new Thread(life);
@@ -60,7 +60,7 @@ public class FoodChain implements  Serializable{
 			threadCount++;
 		}
 		
-		for (int i=0; i<20; i++) {
+		for (int i=0; i<10; i++) {
 			Life life = new Dandelion(this, (50+rand.nextInt(maxW)), (50+rand.nextInt(maxH)), 27, 27, "dandelion.png");
 			lifeList.add(life);		
 			life.thread = new Thread(life);
@@ -184,7 +184,12 @@ public class FoodChain implements  Serializable{
 
 	public void updateFields() {
 		// TODO Auto-generated method stub
-		Map<String, String> counts = new HashMap();
+		Map<String, String> counts = new HashMap() {{
+		    put("countWolf", "0");
+		    put("countRabbit", "0");
+		    put("countDandelion", "0");
+		    
+		}};
 		for (int i=0; i<lifeList.size(); i++) {
 			Life life = lifeList.get(i);
 			if (life==null || life.state==State.DEAD) {

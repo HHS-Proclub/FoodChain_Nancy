@@ -89,7 +89,7 @@ public class FoodChainField extends JFrame  implements MouseListener{
     	//Loop through new life list to add new life or update existing life
     	for (int i=0; i<lifeList.size();i++) {
 			ClientLife life = lifeList.get(i);
-			if (life==null || life.icon==null) {
+			if (life==null || life.icon=="null") {
 	    		continue;
 	    	}			
 			newLifeMap.put(life.name, life);

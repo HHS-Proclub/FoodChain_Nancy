@@ -27,7 +27,7 @@ public class Rabbit extends Animal{
 		size = ((int)(maxW/2));
 		scanRange = 1500;
 		healthPeriod = 4 +(1-rand.nextInt(2));
-		bornRate = 30;
+		bornRate = 98;
 		
 	}
 

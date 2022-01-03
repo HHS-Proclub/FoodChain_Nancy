@@ -90,6 +90,7 @@ public class Client {
 		        //loop to listen to server broadcase: u for field update and c for client state update (control msg)
 		        while (true) {
 		    		String jsonString = in.readLine();
+		    		//System.err.println("Client receive msg from server updateThread:"+jsonString);
 		    		try {
 			            List<ClientLife> lifeList = Arrays.asList(gson.fromJson(jsonString, ClientLife[].class));
 			            if (lifeList.size()<1) {

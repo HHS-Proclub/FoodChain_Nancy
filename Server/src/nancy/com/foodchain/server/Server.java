@@ -134,11 +134,13 @@ public class Server {
 	            	}
 	            	String lifeListString = "["+sb.toString()+"]";
 	            	server.broadcast(lifeListString, "u");
+	            	//System.err.println("Server broadcast:"+lifeListString);
 				}
                 
             } catch (Exception e) {
                 System.out.println("Initializing error. Try changing port number!" + e);
             }
+			System.err.println("Server exit:");
 		}
     }
 

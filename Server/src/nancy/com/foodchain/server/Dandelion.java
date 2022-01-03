@@ -16,7 +16,7 @@ public class Dandelion extends Plant{
 		this.bornCount = 20+rand.nextInt(Math.max(bornPeriod, 2));
 		maxW = 40;
 		maxH = 40;
-		maxAge = 600 +rand.nextInt(200);
+		maxAge = 300 +rand.nextInt(50);
 		matureSize = 35;
 		minSize = 5;
 		size = ((int)(maxW/2));
