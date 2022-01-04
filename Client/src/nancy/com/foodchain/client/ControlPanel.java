@@ -1,6 +1,8 @@
 package nancy.com.foodchain.client;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -20,6 +22,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -46,25 +49,45 @@ public class ControlPanel extends JDialog implements ActionListener  {
 	      data = new String[2]; // set to amount of data items
 	      JPanel panel = new JPanel();
 	      
-	      panel.setLayout(new GridBagLayout());
-	      GridBagConstraints gbc = new GridBagConstraints();
-	      gbc.insets = new Insets(2,2,2,2);
+	      panel.setLayout(new BorderLayout());
 	      
-	      panel.add(addSlider("Weather Condition", "weatherCondition", 1, 10, client.weatherCondition, 1, 1));	
-	      panel.add(addSlider("Birth Period: Wolf", "wolfBornPeriod", 1, nancy.com.foodchain.server.Life.BORN_PERIOD*2, client.wolfBornPeriod, 100, 5));	
-	      panel.add(addSlider("Birth Period: Rabbit", "rabbitBornPeriod", 1, nancy.com.foodchain.server.Life.BORN_PERIOD*2, client.rabbitBornPeriod, 100, 5));	
+	      JPanel sliderPanel = new JPanel(new BorderLayout());
+	      sliderPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+	      panel.add(sliderPanel, BorderLayout.NORTH);
+	      
+	      JPanel btnPanel = new JPanel(new GridBagLayout());
+	      btnPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+	      panel.add(btnPanel, BorderLayout.SOUTH);
+	      
+	      JPanel bornPeriodPanel = new JPanel(new FlowLayout());
+	      bornPeriodPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+	      sliderPanel.add(bornPeriodPanel, BorderLayout.NORTH);
+	      
+	      JPanel bornRatePanel = new JPanel(new FlowLayout());
+	      bornRatePanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+	      sliderPanel.add(bornRatePanel, BorderLayout.SOUTH);
+	      
+	      
+	      bornPeriodPanel.add(addSlider("Weather Condition", "weatherCondition", 1, 10, client.weatherCondition, 1, 1));	
+	      bornPeriodPanel.add(addSlider("Birth Period: Wolf", "wolfBornPeriod", 1, nancy.com.foodchain.server.Life.BORN_PERIOD*2, client.wolfBornPeriod, 100, 5));	
+	      bornPeriodPanel.add(addSlider("Birth Period: Rabbit", "rabbitBornPeriod", 1, nancy.com.foodchain.server.Life.BORN_PERIOD*2, client.rabbitBornPeriod, 100, 5));	
+	      bornRatePanel.add(addSlider("Birth Rate: Wolf", "wolfBornRate", 1, nancy.com.foodchain.server.Life.BORN_RATE*2, client.wolfBornRate, 100, 5));
+	      bornRatePanel.add(addSlider("Birth Rate: Wolf", "rabbitBornRate", 1, nancy.com.foodchain.server.Life.BORN_RATE*2, client.rabbitBornRate, 100, 5));
+	      bornRatePanel.add(addSlider("Birth Rate: Wolf", "dandelionBornRate", 1, nancy.com.foodchain.server.Life.BORN_RATE*2, client.dandelionBornRate, 100, 5));
+	      
+	      GridBagConstraints gbc = new GridBagConstraints();
 	      
 	      btnOk = new JButton("Ok");
 	      btnOk.addActionListener(this);
 	      gbc.gridwidth = 1;
 	      gbc.gridx = 0;
-	      gbc.gridy = 3;
-	      panel.add(btnOk,gbc);
+	      gbc.gridy = 0;
+	      btnPanel.add(btnOk,gbc);
 	      btnCancel = new JButton("Cancel");
 	      btnCancel.addActionListener(this);
 	      gbc.gridx = 1;
-	      gbc.gridy = 3;
-	      panel.add(btnCancel,gbc);
+	      gbc.gridy = 0;
+	      btnPanel.add(btnCancel,gbc);
 	      getContentPane().add(panel);
 	      pack();
 	   }

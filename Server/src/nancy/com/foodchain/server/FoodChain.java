@@ -23,16 +23,25 @@ public class FoodChain implements  Serializable{
 	public int weatherCondition = 5;
 	public int wolfBornPeriod = Life.BORN_PERIOD;
 	public int rabbitBornPeriod = Life.BORN_PERIOD;
+	public int wolfBornRate = Life.BORN_RATE;
+	public int rabbitBornRate = Life.BORN_RATE;
+	public int dandelionBornRate = Life.BORN_RATE;
 	public boolean test = false;
 	private int countWolf;
 	private int countRabbit;
 	private int countDandelion;
+	int initNumWolf;
+	int initNumRabbit;
+	int initNumDandelion;
 	long startTime;
 	private long elapsedTime;
-	public static void main(String[] args) {
-		new FoodChain().doIt();
-
+	public FoodChain(String[] args) {
+		
+		this.initNumWolf = Integer.parseInt(args[0]);
+		this.initNumRabbit = Integer.parseInt(args[1]);
+		this.initNumDandelion = Integer.parseInt(args[2]);
 	}
+
 	void doIt() {
 		startTime = System.currentTimeMillis();
 		Random rand = new Random(99);	
@@ -44,7 +53,7 @@ public class FoodChain implements  Serializable{
 		total.put("Null", "0");
 		total.put("Total", "0");
 		
-		for (int i=0; i<10; i++) {
+		for (int i=0; i<initNumWolf; i++) {
 			Life life = new Wolf(this, (50+rand.nextInt(maxW)), (50+rand.nextInt(maxH)), 20, 20, "wolf.png", -1);
 			lifeList.add(life);		
 			life.thread = new Thread(life);
@@ -52,7 +61,7 @@ public class FoodChain implements  Serializable{
 			threadCount++;
 		}
 		
-		for (int i=0; i<40; i++) {
+		for (int i=0; i<initNumRabbit; i++) {
 			Life life = new Rabbit(this, (50+rand.nextInt(maxW)), (50+rand.nextInt(maxH)), 15, 15, "rabbit.png", -1);
 			lifeList.add(life);		
 			life.thread = new Thread(life);
@@ -60,7 +69,7 @@ public class FoodChain implements  Serializable{
 			threadCount++;
 		}
 		
-		for (int i=0; i<10; i++) {
+		for (int i=0; i<initNumDandelion; i++) {
 			Life life = new Dandelion(this, (50+rand.nextInt(maxW)), (50+rand.nextInt(maxH)), 27, 27, "dandelion.png");
 			lifeList.add(life);		
 			life.thread = new Thread(life);
@@ -131,6 +140,39 @@ public class FoodChain implements  Serializable{
 				}
 			}
 			rabbitBornPeriod = newPeriod;
+		} else if (field.key.equals("wolfBornRate")) {
+			int newRate = Integer.parseInt(field.value);
+			for (int i=0; i<lifeList.size();i++) {
+				Life life = lifeList.get(i);
+				if (life==null || !(life instanceof Wolf)) {
+					continue;
+				}
+				life.bornRate = newRate;
+				
+			}
+			wolfBornRate = newRate;
+		} else if (field.key.equals("rabbitBornRate")) {
+			int newRate = Integer.parseInt(field.value);
+			for (int i=0; i<lifeList.size();i++) {
+				Life life = lifeList.get(i);
+				if (life==null || !(life instanceof Rabbit)) {
+					continue;
+				}
+				life.bornRate = newRate;
+				
+			}
+			rabbitBornRate = newRate;
+		} else if (field.key.equals("dandelionBornRate")) {
+			int newRate = Integer.parseInt(field.value);
+			for (int i=0; i<lifeList.size();i++) {
+				Life life = lifeList.get(i);
+				if (life==null || !(life instanceof Dandelion)) {
+					continue;
+				}
+				life.bornRate = newRate;
+				
+			}
+			dandelionBornRate = newRate;
 		} else if (field.key.equals("countWolf")) {
 			countWolf = Integer.parseInt(field.value);
 			//System.err.println("weatherCondition="+weatherCondition);
@@ -158,6 +200,12 @@ public class FoodChain implements  Serializable{
 			field.value = ""+ wolfBornPeriod;
 		} else if (field.key.equals("rabbitBornPeriod")) {
 			field.value = ""+ rabbitBornPeriod;
+		} else if (field.key.equals("wolfBornRate")) {
+			field.value = ""+ wolfBornRate;
+		} else if (field.key.equals("rabbitBornRate")) {
+			field.value = ""+ rabbitBornRate;
+		} else if (field.key.equals("dandelionBornRate")) {
+			field.value = ""+ dandelionBornRate;
 		}
 		
 	}
@@ -170,6 +218,14 @@ public class FoodChain implements  Serializable{
 			return ""+ wolfBornPeriod;
 		} else if (key.equals("rabbitBornPeriod")) {
 			return  ""+ rabbitBornPeriod;
+			
+		} else if (key.equals("wolfBornRate")) {
+			return  ""+ wolfBornRate;
+		} else if (key.equals("rabbitBornRate")) {
+			return  ""+ rabbitBornRate;
+		} else if (key.equals("dandelionBornRate")) {
+			return  ""+ dandelionBornRate;
+			
 		} else if (key.equals("countWolf")) {			
 			return  ""+ countWolf;
 		} else if (key.equals("countRabbit")) {			

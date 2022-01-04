@@ -64,59 +64,64 @@ public class DashBoard extends JDialog implements ActionListener, Runnable  {
 	      GridBagConstraints grid2 = new GridBagConstraints();
 	      grid2.insets= new Insets(3,3,3,3);
 	      
-	      JPanel textPanel1 = new JPanel(new GridBagLayout());
-	      textPanel1.setBorder(new EmptyBorder(10, 10, 10, 10));
+	      JPanel populationLabel = new JPanel(new GridBagLayout());
+	      populationLabel.setBorder(new EmptyBorder(10, 10, 10, 10));
 	      grid2.fill = GridBagConstraints.HORIZONTAL;
 	      grid2.gridx = 0;
 	      grid2.gridy = 0;
-	      textPanel.add(textPanel1, grid2);
+	      textPanel.add(populationLabel, grid2);
 	      
-	      JPanel textPanel2 = new JPanel(new GridBagLayout());
-	      textPanel2.setBorder(new EmptyBorder(10, 10, 10, 10));
+	      JPanel environmentPanel = new JPanel(new GridBagLayout());
+	      environmentPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 	      grid2.fill = GridBagConstraints.HORIZONTAL;
 	      grid2.gridx = 1;
 	      grid2.gridy = 0;
-	      textPanel.add(textPanel2, grid2);
+	      textPanel.add(environmentPanel, grid2);
 	      
 	      GridBagConstraints grid = new GridBagConstraints();
 
-	      JLabel populationLabel = new JLabel("Population");
-	      populationLabel.setSize(150, 100);
-	      populationLabel.setFont(new Font("Consolas", Font.BOLD, 15));
+	      //POPULATION PANEL STARTS
+	      
+	      JLabel populationTitleLabel = new JLabel("Population");
+	      populationTitleLabel.setSize(150, 100);
+	      populationTitleLabel.setFont(new Font("Consolas", Font.BOLD, 15));
 	      grid.fill = GridBagConstraints.HORIZONTAL;
 	      grid.gridx = 0;
 	      grid.gridy = 0;
-	      textPanel1.add(populationLabel, grid); 
-	      populationLabel.setHorizontalAlignment(JLabel.CENTER);
+	      populationLabel.add(populationTitleLabel, grid); 
+	      populationTitleLabel.setHorizontalAlignment(JLabel.CENTER);
+	      
+	      //COUNTS LABELS
 	      
 	      JLabel totalPopulation = new JLabel("                    Total: ");
 	      totalPopulation.setSize(150, 100);
 	      grid.fill = GridBagConstraints.HORIZONTAL;
 	      grid.gridx = 0;
 	      grid.gridy = 1;
-	      textPanel1.add(totalPopulation, grid); 
+	      populationLabel.add(totalPopulation, grid); 
 	      
 	      JLabel totalPopulationLabel = new JLabel(""+this.client.totalPopulation);
 	      totalPopulationLabel.setSize(150, 100);
 	      grid.weighty = 1.0;
 	      grid.gridx = 1;
 	      grid.gridy = 1;
-	      textPanel1.add(totalPopulationLabel, grid); 
+	      populationLabel.add(totalPopulationLabel, grid); 
 	      fieldMap.put("totalPopulation", totalPopulationLabel);
+	      
 	      
 	      JLabel wolfLabel = new JLabel("         Wolf count: ");
 	      wolfLabel.setSize(150, 100);
 	      grid.fill = GridBagConstraints.HORIZONTAL;
 	      grid.gridx = 0;
 	      grid.gridy = 2;
-	      textPanel1.add(wolfLabel, grid); 
+	      populationLabel.add(wolfLabel, grid); 
 	      
 	      JLabel wolfCountLabel = new JLabel(""+this.client.countWolf);
 	      wolfCountLabel.setSize(150, 100);
 	      grid.weighty = 1.0;
 	      grid.gridx = 1;
 	      grid.gridy = 2;
-	      textPanel1.add(wolfCountLabel, grid); 
+	      populationLabel.add(wolfCountLabel, grid); 
 	      fieldMap.put("countWolf", wolfCountLabel);
 	      
 	      JLabel rabbitLabel = new JLabel("      Rabbit count: ");
@@ -124,14 +129,14 @@ public class DashBoard extends JDialog implements ActionListener, Runnable  {
 	      grid.weighty = 1.0;
 	      grid.gridx = 0;
 	      grid.gridy = 3;
-	      textPanel1.add(rabbitLabel, grid);
+	      populationLabel.add(rabbitLabel, grid);
 	      
 	      JLabel rabbitCountLabel = new JLabel(""+this.client.countRabbit);
 	      rabbitCountLabel.setSize(150, 100);
 	      grid.weighty = 1.0;
 	      grid.gridx = 1;
 	      grid.gridy = 3;
-	      textPanel1.add(rabbitCountLabel, grid); 
+	      populationLabel.add(rabbitCountLabel, grid); 
 	      fieldMap.put("countRabbit", rabbitCountLabel);
 	      
 	      JLabel dandelionLabel = new JLabel("Dandelion count: ");
@@ -139,22 +144,24 @@ public class DashBoard extends JDialog implements ActionListener, Runnable  {
 	      grid.weighty = 1.0;
 	      grid.gridx = 0;
 	      grid.gridy = 4;
-	      textPanel1.add(dandelionLabel, grid);
+	      populationLabel.add(dandelionLabel, grid);
 	      
 	      JLabel dandelionCountLabel = new JLabel(""+this.client.countDandelion);
 	      dandelionCountLabel.setSize(150, 100);
 	      grid.weighty = 1.0;
 	      grid.gridx = 1;
 	      grid.gridy = 4;
-	      textPanel1.add(dandelionCountLabel, grid); 
+	      populationLabel.add(dandelionCountLabel, grid); 
 	      fieldMap.put("countDandelion", dandelionCountLabel);
+	      
+	      //*TIME LABEL  
 	      
 	      JLabel elapsedTimeLabel = new JLabel("      Elapsed time: ");
 	      elapsedTimeLabel.setSize(150, 100);
 	      grid.weighty = 1.0;
 	      grid.gridx = 0;
 	      grid.gridy = 5;
-	      textPanel1.add(elapsedTimeLabel, grid);
+	      populationLabel.add(elapsedTimeLabel, grid);
 	      
 	     
 	      JLabel elapsedTimeCountLabel = new JLabel(client.getDuration());
@@ -162,8 +169,12 @@ public class DashBoard extends JDialog implements ActionListener, Runnable  {
 	      grid.weighty = 1.0;
 	      grid.gridx = 1;
 	      grid.gridy = 5;
-	      textPanel1.add(elapsedTimeCountLabel, grid); 
+	      populationLabel.add(elapsedTimeCountLabel, grid); 
 	      fieldMap.put("elapsedTime", elapsedTimeCountLabel);
+	      
+	      
+	      //ENVIRONMENT PANEL STARTS
+	      
 	      
 	      JLabel environmentLabel = new JLabel("Environment");
 	      environmentLabel.setSize(150, 100);
@@ -171,53 +182,105 @@ public class DashBoard extends JDialog implements ActionListener, Runnable  {
 	      grid.fill = GridBagConstraints.HORIZONTAL;
 	      grid.gridx = 0;
 	      grid.gridy = 6;
-	      textPanel2.add(environmentLabel, grid);
+	      environmentPanel.add(environmentLabel, grid);
 	      environmentLabel.setHorizontalAlignment(JLabel.CENTER);
+	      
+	      //*WEATHER LABEL
 	      
 	      JLabel weatherLabel = new JLabel("Weather Condition:   ");
 	      weatherLabel.setSize(150, 100);
 	      grid.fill = GridBagConstraints.HORIZONTAL;
 	      grid.gridx = 0;
 	      grid.gridy = 7;
-	      textPanel2.add(weatherLabel, grid);
+	      environmentPanel.add(weatherLabel, grid);
 	      
 	      JLabel weatherConditionLabel = new JLabel(""+this.client.weatherCondition);
 	      weatherConditionLabel.setSize(150, 100);
 	      grid.weighty = 1.0;
 	      grid.gridx = 1;
 	      grid.gridy = 7;
-	      textPanel2.add(weatherConditionLabel, grid); 
+	      environmentPanel.add(weatherConditionLabel, grid); 
 	      fieldMap.put("weatherCondition", weatherConditionLabel);
 	      
-	      JLabel wolfBornLabel = new JLabel("   Wolf Born Period:");
-	      wolfBornLabel.setSize(150, 100);
+	      //born PERIOD labels	  
+	      
+	      JLabel wolfBPLabel = new JLabel("   Wolf Born Period:");
+	      wolfBPLabel.setSize(150, 100);
 	      grid.fill = GridBagConstraints.HORIZONTAL;
 	      grid.gridx = 0;
 	      grid.gridy = 8;
-	      textPanel2.add(wolfBornLabel, grid);
+	      environmentPanel.add(wolfBPLabel, grid);
 	      
-	      JLabel wolfBornPeriodLabel = new JLabel(""+this.client.wolfBornPeriod);
-	      wolfBornPeriodLabel.setSize(150, 100);
+	      JLabel wolfBPNumLabel = new JLabel(""+this.client.wolfBornPeriod);
+	      wolfBPNumLabel.setSize(150, 100);
 	      grid.weighty = 1.0;
 	      grid.gridx = 1;
 	      grid.gridy = 8;
-	      textPanel2.add(wolfBornPeriodLabel, grid); 
-	      fieldMap.put("wolfBornPeriod", wolfBornPeriodLabel);
+	      environmentPanel.add(wolfBPNumLabel, grid); 
+	      fieldMap.put("wolfBornPeriod", wolfBPNumLabel);
 	      
-	      JLabel rabbitBornLabel = new JLabel("Rabbit Born Period:");
-	      rabbitBornLabel.setSize(150, 100);
+	      JLabel rabbitBPLabel = new JLabel("Rabbit Born Period:");
+	      rabbitBPLabel.setSize(150, 100);
 	      grid.fill = GridBagConstraints.HORIZONTAL;
 	      grid.gridx = 0;
 	      grid.gridy = 9;
-	      textPanel2.add(rabbitBornLabel, grid);
+	      environmentPanel.add(rabbitBPLabel, grid);
 	      
-	      JLabel rabbitBornPeriodLabel = new JLabel(""+this.client.rabbitBornPeriod);
-	      rabbitBornPeriodLabel.setSize(150, 100);
+	      JLabel rabbitBPNumLabel = new JLabel(""+this.client.rabbitBornPeriod);
+	      rabbitBPNumLabel.setSize(150, 100);
 	      grid.weighty = 1.0;
 	      grid.gridx = 1;
 	      grid.gridy = 9;
-	      textPanel2.add(rabbitBornPeriodLabel, grid); 
-	      fieldMap.put("rabbitBornPeriod", rabbitBornPeriodLabel);
+	      environmentPanel.add(rabbitBPNumLabel, grid); 
+	      fieldMap.put("rabbitBornPeriod", rabbitBPNumLabel);
+	      
+	      
+	      //born RATE labels	      
+	      
+	      JLabel wolfBRLabel = new JLabel("Wolf Born Rate:");
+	      wolfBRLabel.setSize(150, 100);
+	      grid.weighty = 1.0;
+	      grid.gridx = 0;
+	      grid.gridy = 10;
+	      environmentPanel.add(wolfBRLabel, grid); 
+	      
+	      JLabel wolfBRNumLabel = new JLabel(""+this.client.wolfBornRate);
+	      wolfBRNumLabel.setSize(150, 100);
+	      grid.fill = GridBagConstraints.HORIZONTAL;
+	      grid.gridx = 1;
+	      grid.gridy = 10;
+	      environmentPanel.add(wolfBRNumLabel, grid);
+	      fieldMap.put("wolfBornRate", wolfBRNumLabel);
+	      
+	      JLabel rabbitBRLabel = new JLabel("Rabbit Born Rate:");
+	      rabbitBRLabel.setSize(150, 100);
+	      grid.fill = GridBagConstraints.HORIZONTAL;
+	      grid.gridx = 0;
+	      grid.gridy = 11;
+	      environmentPanel.add(rabbitBRLabel, grid);
+	      
+	      JLabel rabbitBRNumLabel = new JLabel(""+this.client.rabbitBornRate);
+	      rabbitBRNumLabel.setSize(150, 100);
+	      grid.weighty = 1.0;
+	      grid.gridx = 1;
+	      grid.gridy = 11;
+	      environmentPanel.add(rabbitBRNumLabel, grid); 
+	      fieldMap.put("rabbitBornRate", rabbitBRNumLabel);
+	      
+	      JLabel dandelionBRLabel = new JLabel("Dandelion Born Rate:");
+	      dandelionBRLabel.setSize(150, 100);
+	      grid.fill = GridBagConstraints.HORIZONTAL;
+	      grid.gridx = 0;
+	      grid.gridy = 12;
+	      environmentPanel.add(dandelionBRLabel, grid);
+	      
+	      JLabel dandelionBRNumLabel = new JLabel(""+this.client.dandelionBornRate);
+	      dandelionBRNumLabel.setSize(150, 100);
+	      grid.weighty = 1.0;
+	      grid.gridx = 1;
+	      grid.gridy = 12;
+	      environmentPanel.add(dandelionBRNumLabel, grid); 
+	      fieldMap.put("dandelionBornRate", dandelionBRNumLabel);
 	      
 	      panel.add(textPanel, BorderLayout.NORTH);
 	      

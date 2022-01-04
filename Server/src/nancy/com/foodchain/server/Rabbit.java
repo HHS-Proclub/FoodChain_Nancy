@@ -16,7 +16,6 @@ public class Rabbit extends Animal{
 		this.edibleList = new String[]{"Dandelion"};
 		Random rand = new Random();	
 		this.bornPeriod = _bornPeriod>0?(10+rand.nextInt(Math.max(_bornPeriod/2, 2))):(20+rand.nextInt(Math.max(bornPeriod, 2)));
-		
 		this.bornCount = bornPeriod;
 		maxW = 20;
 		maxH = 20;
@@ -27,7 +26,7 @@ public class Rabbit extends Animal{
 		size = ((int)(maxW/2));
 		scanRange = 1500;
 		healthPeriod = 4 +(1-rand.nextInt(2));
-		bornRate = 98;
+		bornRate = 30;
 		
 	}
 

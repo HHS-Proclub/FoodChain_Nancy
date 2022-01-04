@@ -3,6 +3,9 @@ package nancy.com.foodchain.client;
 import java.io.BufferedReader;
 
 import com.google.gson.Gson;
+
+import nancy.com.foodchain.server.Life;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -24,6 +27,9 @@ public class Client {
 	public int weatherCondition = 1;
 	public int wolfBornPeriod = 1;
 	public int rabbitBornPeriod = 1;
+	public int wolfBornRate = 1;
+	public int rabbitBornRate = 1;
+	public int dandelionBornRate = 1;
 	public String name;
 	public int totalPopulation;
 	public int countWolf;
@@ -57,6 +63,9 @@ public class Client {
 			sb.append(new ClientLife("c", "weatherCondition", null).toJson());
 			sb.append(","+new ClientLife("c", "wolfBornPeriod", null).toJson());
 			sb.append(","+new ClientLife("c", "rabbitBornPeriod", null).toJson());
+			sb.append(","+new ClientLife("c", "wolfBornRate", null).toJson());
+			sb.append(","+new ClientLife("c", "rabbitBornRate", null).toJson());
+			sb.append(","+new ClientLife("c", "dandelionBornRate", null).toJson());
 			sb.append(","+new ClientLife("c", "name", null).toJson());
 			out.println("["+ sb.toString()  +"]");		
 	        //String respond = controlClient.in.readLine();
@@ -217,6 +226,22 @@ public class Client {
 		} else if (clientField.key.equals("rabbitBornPeriod")) {
 			rabbitBornPeriod = Integer.parseInt(clientField.value);
 			//System.err.println("rabbitBornPeriod="+rabbitBornPeriod);
+			
+		} else if (clientField.key.equals("wolfBornRate")) {
+			wolfBornRate = Integer.parseInt(clientField.value);
+			//System.err.println("name="+name);
+			
+		} else if (clientField.key.equals("rabbitBornRate")) {
+			rabbitBornRate = Integer.parseInt(clientField.value);
+			//System.err.println("name="+name);
+			
+		} else if (clientField.key.equals("dandelionBornRate")) {
+			dandelionBornRate = Integer.parseInt(clientField.value);
+			//System.err.println("name="+name);
+			
+		} else if (clientField.key.equals("name")) {
+			name = clientField.value;
+			//System.err.println("name="+name);
 		} else if (clientField.key.equals("name")) {
 			name = clientField.value;
 			//System.err.println("name="+name);

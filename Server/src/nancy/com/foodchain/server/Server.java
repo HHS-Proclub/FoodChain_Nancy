@@ -26,12 +26,12 @@ public class Server {
 	boolean isBroadcasting = false;
 	
     public static void main(String[] args) throws IOException {
-    	new Server().doIt();
+    	new Server().doIt(args);
     }
     
-    void doIt() {
+    void doIt(String[] args) {
         System.out.println("Server is starting...");
-        foodChain = new FoodChain();
+        foodChain = new FoodChain(args);
         foodChain.doIt();
         startStopwatch();
         

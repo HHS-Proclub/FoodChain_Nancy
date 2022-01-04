@@ -23,6 +23,7 @@ public abstract class Life implements  Runnable{
 	public int y;
 	public int age = 0;
 	public static int BORN_PERIOD = 200;
+	public static int BORN_RATE = 50;
 	public int width = 20;
 	public int height = 20;
 	public String lifeType;
