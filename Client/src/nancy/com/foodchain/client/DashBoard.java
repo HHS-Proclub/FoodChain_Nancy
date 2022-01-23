@@ -316,6 +316,9 @@ public class DashBoard extends JDialog implements ActionListener, Runnable  {
         	    		(new ClientLife("d", "weatherCondition",""+fieldMap.get("weatherCondition").getText()).toJson())+","+
         	    		(new ClientLife("d", "wolfBornPeriod",""+fieldMap.get("wolfBornPeriod").getText()).toJson())+","+
         	    		(new ClientLife("d", "rabbitBornPeriod",""+fieldMap.get("rabbitBornPeriod").getText()).toJson())+","+
+        	    		(new ClientLife("d", "wolfBornRate",""+fieldMap.get("wolfBornRate").getText()).toJson())+","+
+        	    		(new ClientLife("d", "rabbitBornRate",""+fieldMap.get("rabbitBornRate").getText()).toJson())+","+
+        	    		(new ClientLife("d", "dandelionBornRate",""+fieldMap.get("dandelionBornRate").getText()).toJson())+","+
         	    		(new ClientLife("d", "countWolf",""+fieldMap.get("countWolf").getText()).toJson())+","+
         	    		(new ClientLife("d", "countRabbit",""+fieldMap.get("countRabbit").getText()).toJson())+","+
         	    		(new ClientLife("d", "countDandelion",""+fieldMap.get("countDandelion").getText()).toJson())+","+

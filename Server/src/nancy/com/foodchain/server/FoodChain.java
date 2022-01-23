@@ -13,7 +13,7 @@ import nancy.com.foodchain.server.Animal;
 import nancy.com.foodchain.server.Life.State;
 
 public class FoodChain implements  Serializable{
-	public List <Life> lifeList = new ArrayList <Life>();
+	private List <Life> lifeList = new ArrayList <Life>();
 	public Field field = new Field(1500,800);
 	public int maxThread = 200;
 	public int threadCount= 0;
@@ -23,8 +23,8 @@ public class FoodChain implements  Serializable{
 	public int weatherCondition = 5;
 	public int wolfBornPeriod = Life.BORN_PERIOD;
 	public int rabbitBornPeriod = Life.BORN_PERIOD;
-	public int wolfBornRate = Life.BORN_RATE;
-	public int rabbitBornRate = Life.BORN_RATE;
+	public int wolfBornRate = 30;
+	public int rabbitBornRate = 20;
 	public int dandelionBornRate = Life.BORN_RATE;
 	public boolean test = false;
 	private int countWolf;
@@ -260,5 +260,20 @@ public class FoodChain implements  Serializable{
 		for (String key : counts.keySet()) {
 			setField(new ClientLife("d", key, counts.get(key)));
 		}
+	}
+
+	public void setLife(int i, Life life) {
+		lifeList.set(i, life);
+		
+	}
+
+	public void addLife(Life life) {
+		lifeList.add(life);
+		
+	}
+	
+	public void getLife(int i) {
+		lifeList.get(i);
+		
 	}
 }

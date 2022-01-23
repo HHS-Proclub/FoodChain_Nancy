@@ -182,12 +182,12 @@ public class Rabbit extends Animal{
 		Life life = new Rabbit(this.foodChain, this.x+1, this.y+1, maxW/2, maxH/2, icon, bornPeriod);
 		if (foodChain.nullList.size()>0) {
 			try {
-				foodChain.lifeList.set(Integer.parseInt(foodChain.nullList.get(0)), life);
+				foodChain.setLife(Integer.parseInt(foodChain.nullList.get(0)), life);
 			} catch (java.lang.IndexOutOfBoundsException e) {
-				foodChain.lifeList.add(life);
+				foodChain.addLife(life);
 			}
 		} else {;
-			foodChain.lifeList.add(life);
+			foodChain.addLife(life);
 		}
 		
 		life.thread = new Thread(life);

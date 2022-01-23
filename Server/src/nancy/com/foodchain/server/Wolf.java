@@ -89,7 +89,7 @@ public class Wolf extends Animal{
 	}
 	public void born(){	
 		Life life = new Wolf(this.foodChain, this.x+1, this.y+1, maxW/2, maxH/2, icon, bornPeriod);
-		foodChain.lifeList.add(life);
+		foodChain.addLife(life);
 		life.thread = new Thread(life);
 		life.thread.start();
 		foodChain.threadCount++;

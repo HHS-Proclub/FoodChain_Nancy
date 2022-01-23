@@ -140,7 +140,7 @@ public class Client {
 						System.err.println(e);
 					}
 		        }
-	        } catch (Exception e) {
+	        } catch (Exception e) {  
 	            System.out.println("Initializing error. Make sure that server is alive!\n" + e);
 	        }
 			
@@ -192,7 +192,7 @@ public class Client {
 		
 		if (field.dashBoardDlg!=null && field.dashBoardDlg.fieldMap!=null) {
 			JLabel label = field.dashBoardDlg.fieldMap.get(clientField.key);
-			//System.err.println("clientField.KEY: "+ clientField.key);
+			//System.err.println("clientField.KEY: "+ clientField.key); 
 			//System.err.println("clientField.value: "+ clientField.value);
 			if (clientField.key.equals("elapsedTime")) {
 				label.setText(getDuration());
@@ -239,9 +239,6 @@ public class Client {
 			dandelionBornRate = Integer.parseInt(clientField.value);
 			//System.err.println("name="+name);
 			
-		} else if (clientField.key.equals("name")) {
-			name = clientField.value;
-			//System.err.println("name="+name);
 		} else if (clientField.key.equals("name")) {
 			name = clientField.value;
 			//System.err.println("name="+name);

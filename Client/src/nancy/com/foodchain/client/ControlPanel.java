@@ -71,9 +71,9 @@ public class ControlPanel extends JDialog implements ActionListener  {
 	      bornPeriodPanel.add(addSlider("Weather Condition", "weatherCondition", 1, 10, client.weatherCondition, 1, 1));	
 	      bornPeriodPanel.add(addSlider("Birth Period: Wolf", "wolfBornPeriod", 1, nancy.com.foodchain.server.Life.BORN_PERIOD*2, client.wolfBornPeriod, 100, 5));	
 	      bornPeriodPanel.add(addSlider("Birth Period: Rabbit", "rabbitBornPeriod", 1, nancy.com.foodchain.server.Life.BORN_PERIOD*2, client.rabbitBornPeriod, 100, 5));	
-	      bornRatePanel.add(addSlider("Birth Rate: Wolf", "wolfBornRate", 1, nancy.com.foodchain.server.Life.BORN_RATE*2, client.wolfBornRate, 100, 5));
-	      bornRatePanel.add(addSlider("Birth Rate: Wolf", "rabbitBornRate", 1, nancy.com.foodchain.server.Life.BORN_RATE*2, client.rabbitBornRate, 100, 5));
-	      bornRatePanel.add(addSlider("Birth Rate: Wolf", "dandelionBornRate", 1, nancy.com.foodchain.server.Life.BORN_RATE*2, client.dandelionBornRate, 100, 5));
+	      bornRatePanel.add(addSlider("Birth Rate: Wolf", "wolfBornRate", 1, nancy.com.foodchain.server.Life.BORN_RATE*2, client.wolfBornRate, 49, 10));
+	      bornRatePanel.add(addSlider("Birth Rate: Rabbit", "rabbitBornRate", 1, nancy.com.foodchain.server.Life.BORN_RATE*2, client.rabbitBornRate, 49, 10));
+	      bornRatePanel.add(addSlider("Birth Rate: Dandelion", "dandelionBornRate", 1, nancy.com.foodchain.server.Life.BORN_RATE*2, client.dandelionBornRate, 49, 10));
 	      
 	      GridBagConstraints gbc = new GridBagConstraints();
 	      

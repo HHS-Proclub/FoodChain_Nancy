@@ -17,7 +17,7 @@ public class Dandelion extends Plant{
 		maxW = 40;
 		maxH = 40;
 		maxAge = 300 +rand.nextInt(50);
-		matureSize = 35;
+		matureSize = 30;
 		minSize = 5;
 		size = ((int)(maxW/2));
 		growPeriodOrigin = 20;
@@ -50,12 +50,12 @@ public class Dandelion extends Plant{
 		Life life = new Dandelion(this.foodChain, x, y, this.maxW/5, this.maxH/5, icon);
 		if (foodChain.nullList.size()>0) {
 			try {
-				foodChain.lifeList.set(Integer.parseInt(foodChain.nullList.get(0)), life);
+				foodChain.setLife(Integer.parseInt(foodChain.nullList.get(0)), life);
 			} catch (java.lang.IndexOutOfBoundsException e) {
-				foodChain.lifeList.add(life);
+				foodChain.addLife(life);
 			}
 		} else {;
-			foodChain.lifeList.add(life);
+			foodChain.addLife(life);
 		}
 		
 		life.thread = new Thread(life);
