@@ -23,7 +23,7 @@ public class Server {
 	int clientCount = 0;
 	UpdateWorker updateServer;
 	List <ClientThread> clients = new ArrayList<ClientThread>();
-	boolean isBroadcasting = false;
+	
 	
     public static void main(String[] args) throws IOException {
     	new Server().doIt(args);
@@ -63,11 +63,10 @@ public class Server {
 		
 	}
 
-	void broadcast(String resString, String type) {
-    	while (isBroadcasting) {			
-			try{Thread.sleep(100);}catch(InterruptedException e){System.out.println(e);}
-		}
-    	isBroadcasting = true;
+    //because all threads (CT and UT) try to write into the same output stream, that might cause race condition
+    //so we use synchronized to protect broadcasting
+    
+	synchronized void broadcast(String resString, String type) {
 		try {
 			for (int i=0; i<clients.size(); i++) {
 			    ClientThread client = clients.get(i);
@@ -83,8 +82,8 @@ public class Server {
 		} catch (Exception e) {
             System.out.println("Initializing error. Try changing port number!" + e);
         }
-		isBroadcasting = false;
 	}
+	
     public class UpdateWorker implements Runnable{
     	Server server;
 
