@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 
 import com.google.gson.Gson;
 
-import nancy.com.foodchain.server.Life;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
